@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COA Notes — Unit 1 &amp; Unit 2 (with Flowcharts)</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body {
+  font-family: "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.62; color: #1c2431; background: #f4f6f9;
+  margin: 0; padding: 0;
+}
+.page { max-width: 1140px; margin: 0 auto; padding: 34px 46px 90px;
+  background: #fff; box-shadow: 0 2px 22px rgba(20,35,70,.10); }
+header.doc { border-bottom: 3px solid #2f6fde; margin-bottom: 20px; padding-bottom: 12px; }
+header.doc h1 { margin: 0 0 6px; font-size: 2.05rem; color: #14315e; letter-spacing: -.5px; }
+header.doc p { margin: 3px 0; color: #55607a; font-size: .95rem; }
+
+h1, h2, h3, h4 { color: #14315e; line-height: 1.28; margin-top: 1.7em; }
+h1 { font-size: 1.85rem; border-bottom: 3px solid #2f6fde; padding-bottom: 7px; }
+h2 { font-size: 1.5rem; border-bottom: 2px solid #d6e0f2; padding-bottom: 5px; }
+h3 { font-size: 1.22rem; color: #1c4c96; }
+h4 { font-size: 1.05rem; color: #2c3e5f; }
+
+p, li { font-size: .985rem; }
+strong { color: #10305c; }
+hr { border: 0; border-top: 2px dashed #ccd6ea; margin: 40px 0; }
+
+table { border-collapse: collapse; width: 100%; margin: 16px 0 22px; font-size: .92rem; }
+th, td { border: 1px solid #c9d4e8; padding: 8px 11px; text-align: left; vertical-align: top; }
+th { background: #e8eefb; color: #14315e; font-weight: 700; }
+tr:nth-child(even) td { background: #f7f9fd; }
+
+blockquote { margin: 16px 0; padding: 10px 18px; background: #eef4ff;
+  border-left: 5px solid #2f6fde; color: #23406e; font-style: italic; }
+blockquote p { margin: 5px 0; }
+
+code { background: #eef1f7; padding: 1.5px 5px; border-radius: 4px;
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace; font-size: .88em; color: #b02a5b; }
+pre { background: #131a26; color: #dbe4f5; padding: 16px 18px; border-radius: 8px;
+  overflow-x: auto; font-size: .87rem; line-height: 1.5; }
+pre code { background: none; color: inherit; padding: 0; }
+
+/* --- Mermaid diagrams --- */
+.mermaid { background: #fbfcff; border: 1.5px solid #cdd8ee; border-radius: 10px;
+  padding: 20px 14px; margin: 24px 0; text-align: center; overflow-x: auto; }
+.mermaid svg { max-width: 100%; height: auto; }
+
+.badge { display: inline-block; background: #2f6fde; color: #fff; border-radius: 5px;
+  padding: 2px 10px; font-size: .78rem; font-weight: 700; letter-spacing: .6px;
+  text-transform: uppercase; margin-right: 8px; vertical-align: middle; }
+
+@media print {
+  body { background: #fff; font-size: 10.5pt; }
+  .page { box-shadow: none; max-width: none; padding: 0; }
+  h1, h2, h3 { page-break-after: avoid; }
+  table, pre, .mermaid { page-break-inside: avoid; }
+  .mermaid { border-color: #999; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="doc">
+  <p><span class="badge">Unit 1 + Unit 2</span> Complete study notes with flowcharts</p>
+  <p>Source: M. Morris Mano, <em>Computer System Architecture</em>, 3rd ed.
+     &nbsp;·&nbsp; Companion topics (Von Neumann, generations, MIPS/MFLOPS, Amdahl's law)
+     from standard architecture references.<br>
+     <strong>View → Print</strong> (or Ctrl+P) for a PDF-ready copy.</p>
+</header>
+<h1>COA — Computer Organization &amp; Architecture</h1>
+<h3>Complete Study Notes with Flowcharts (Unit 1 &amp; Unit 2)</h3>
+<p><strong>Primary source:</strong> M. Morris Mano, <em>Computer System Architecture</em> (3rd Edition)<br>
+<strong>Companion topics (Von Neumann, generations, MIPS/MFLOPS, Amdahl's law) added from standard architecture references.</strong></p>
+<hr>
+<h2>Master Map — Where Every Topic Lives</h2>
+<div class="mermaid">
+flowchart LR
+    COA[&quot;COA — Computer Organization&lt;br/&gt;&amp;amp; Architecture&quot;] --&gt; U1[&quot;UNIT 1&lt;br/&gt;Data Representation,&lt;br/&gt;Arithmetic &amp;amp; Memory&quot;]
+    COA --&gt; U2[&quot;UNIT 2&lt;br/&gt;Basic Computer Design,&lt;br/&gt;Control &amp;amp; CPU&quot;]
+
+    U1 --&gt; A1[&quot;1. Computer Systems,&lt;br/&gt;Architecture vs Organization&quot;]
+    U1 --&gt; A2[&quot;2. Von Neumann Architecture&lt;br/&gt;&amp;amp; Computer Generations&quot;]
+    U1 --&gt; A3[&quot;3. Data Representation&lt;br/&gt;Fixed Point / Floating Point / Decimal&quot;]
+    U1 --&gt; A4[&quot;4. Arithmetic Algorithms&lt;br/&gt;Add, Sub, Booth&#x27;s Multiply&quot;]
+    U1 --&gt; A5[&quot;5. Performance:&lt;br/&gt;MIPS, MFLOPS&quot;]
+    U1 --&gt; A6[&quot;6. Multiprocessors&lt;br/&gt;&amp;amp; Multicomputers&quot;]
+    U1 --&gt; A7[&quot;7. Memory Organization&lt;br/&gt;Hierarchy, Types, TLB&quot;]
+
+    U2 --&gt; B1[&quot;1. Basic Computer&lt;br/&gt;Organization &amp;amp; Design&quot;]
+    U2 --&gt; B2[&quot;2. I/O and Interrupt&lt;br/&gt;Interrupt Cycle&quot;]
+    U2 --&gt; B3[&quot;3. Design Drivers:&lt;br/&gt;Common Case, Amdahl&#x27;s Law&quot;]
+    U2 --&gt; B4[&quot;4. Microprogrammed Control&lt;br/&gt;Sequencer, Formats&quot;]
+    U2 --&gt; B5[&quot;5. CISC vs RISC&quot;]
+</div>
+<h2>---</h2>
+<h1>UNIT 1</h1>
+<hr>
+<h2>1. Introduction to Computer Systems, Organization and Architecture</h2>
+<h3>1.1 Three Different Words (Very Common Exam Question)</h3>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>What it deals with</th>
+<th>Key question it answers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Computer Architecture</strong></td>
+<td>Structure and behaviour of the functional modules <strong>as seen by the programmer</strong></td>
+<td><em>What</em> does the machine do? (instruction formats, addressing modes, instruction set, register set)</td>
+</tr>
+<tr>
+<td><strong>Computer Organization</strong></td>
+<td><em>Way</em> hardware components are <strong>connected together</strong></td>
+<td><em>How</em> is it built? (control signals, memory interface, timing, bus width)</td>
+</tr>
+<tr>
+<td><strong>Computer Design</strong></td>
+<td>Development of the hardware from a given set of <strong>specifications</strong></td>
+<td><em>Design</em> the hardware to meet the spec</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Mano's definition (Preface):</strong> <em>"Computer architecture is concerned with the structure and behavior of the various functional modules of the computer and how they interact to provide the processing needs of the user. Computer organization is concerned with the way the hardware components are connected together to form a computer system."</em></p>
+</blockquote>
+<p><strong>Same architecture, different organization:</strong> IBM 360 family — same architecture, different organizations (from small to large).
+<strong>Same organization, different architecture:</strong> microprogrammed control can implement different instruction sets on the same hardware.</p>
+<h3>1.2 The Five Functional Units of a Digital Computer</h3>
+<div class="mermaid">
+flowchart TD
+    IN[&quot;INPUT UNIT&lt;br/&gt;keyboard, mouse, scanner&quot;] --&gt;|&quot;binary data + instructions&quot;| MEM[&quot;MEMORY UNIT&lt;br/&gt;RAM (data + program)&quot;]
+    MEM --&gt;|&quot;instruction / operand&quot;| CU[&quot;CONTROL UNIT&lt;br/&gt;interprets instruction,&lt;br/&gt;issues control signals&quot;]
+    MEM --&gt;|&quot;operand&quot;| ALU[&quot;ARITHMETIC &amp;amp; LOGIC UNIT&lt;br/&gt;add, subtract,&lt;br/&gt;AND, OR, shift&quot;]
+    CU --&gt;|&quot;control signals&quot;| ALU
+    CU --&gt;|&quot;control signals&quot;| MEM
+    CU --&gt;|&quot;control signals&quot;| IN
+    CU --&gt;|&quot;control signals&quot;| OUT
+    ALU --&gt;|&quot;result&quot;| MEM
+    ALU --&gt;|&quot;status: carry, sign, zero&quot;| CU
+    MEM --&gt;|&quot;result / message&quot;| OUT[&quot;OUTPUT UNIT&lt;br/&gt;monitor, printer&quot;]
+</div>
+<p><strong>Registers</strong> (PC, IR, AC, MAR, MDR…) sit inside the processor and hold the <em>control information</em> and <em>data</em> currently being worked on.</p>
+<h3>1.3 Stored Program Concept</h3>
+<blockquote>
+<p><em>"The ability to store and execute instructions — the </em><em>stored program concept</em><em> — is the most important property of a general-purpose computer."</em> (Mano, Sec. 5-1)</p>
+</blockquote>
+<p>Instructions and data are both stored in the <strong>same memory</strong> in binary. The control reads an instruction, decodes it, and issues a sequence of <strong>microoperations</strong>.</p>
+<ul>
+<li><strong>Macrooperation</strong> = the operation part of an instruction (e.g. <code>ADD</code>).</li>
+<li><strong>Microoperation</strong> = the smallest indivisible action (e.g. <code>AC ← AC + DR</code>), performed in one clock cycle.</li>
+</ul>
+<hr>
+<h2>2. Von Neumann Architecture</h2>
+<h3>2.1 Features</h3>
+<ol>
+<li><strong>Single store</strong> — instructions and data share one memory (no separate instruction memory).</li>
+<li><strong>Program is stored as data</strong> in memory, in binary.</li>
+<li><strong>Store-and-execute</strong> — instruction is fetched, then executed; a new instruction need not be fetched between steps.</li>
+<li><strong>Sequential execution</strong> — one instruction at a time, unless a branch occurs.</li>
+<li><strong>Program counter (PC)</strong> holds the address of the next instruction.</li>
+<li><strong>Common bus</strong> — a single shared path carries both instructions and data (this is why memory and I/O share a bus and a <em>fetch</em> and a <em>data</em> access cannot happen at the same instant).</li>
+<li><strong>Control unit</strong> sequenced by a <strong>timing / clock</strong> signal.</li>
+<li>It describes the machine as a combination of: <strong>CU + ALU + Registers + Memory + I/O</strong>.</li>
+</ol>
+<h3>2.2 Von Neumann Machine — Block Flowchart</h3>
+<div class="mermaid">
+flowchart LR
+    subgraph CPU[&quot;PROCESSOR (CPU)&quot;]
+        CU[&quot;Control Unit&quot;]
+        ALU[&quot;ALU&quot;]
+        R[&quot;Registers&lt;br/&gt;PC IR AC MAR MDR&quot;]
+    end
+    BUS[&quot;COMMON BUS&lt;br/&gt;(address / data / control)&quot;]
+    M[&quot;MEMORY&lt;br/&gt;Data + Instructions&quot;]
+    I[&quot;Input&quot;]
+    O[&quot;Output&quot;]
+
+    I --&gt; BUS
+    BUS &lt;--&gt; M
+    BUS &lt;--&gt; R
+    R &lt;--&gt; ALU
+    CU --&gt;|&quot;reads opcode from IR&quot;| R
+    CU --&gt;|&quot;control signals&quot;| BUS
+    CU --&gt;|&quot;control signals&quot;| ALU
+    CU --&gt;|&quot;control signals&quot;| I
+    CU --&gt;|&quot;control signals&quot;| O
+    R --&gt; BUS
+</div>
+<h3>2.3 Fetch – Decode – Execute Cycle (The Heart of Von Neumann)</h3>
+<div class="mermaid">
+flowchart TD
+    S([&quot;START&quot;]) --&gt; F1[&quot;FETCH&lt;br/&gt;AR ← PC&lt;br/&gt;Read memory&lt;br/&gt;IR ← M[AR], PC ← PC + 1&quot;]
+    F1 --&gt; D1[&quot;DECODE&lt;br/&gt;opcode bits → control&lt;br/&gt;address part → AR&lt;br/&gt;mode bit → I flip-flop&quot;]
+    D1 --&gt; I1{&quot;Indirect&lt;br/&gt;address?&quot;}
+    I1 --&gt;|&quot;Yes&quot;| EA[&quot;Read effective address&lt;br/&gt;AR ← M[AR]&quot;]
+    I1 --&gt;|&quot;No&quot;| EX
+    EA --&gt; EX[&quot;EXECUTE&lt;br/&gt;microoperations for&lt;br/&gt;the opcode&quot;]
+    EX --&gt; H{&quot;HALT&lt;br/&gt;instruction?&quot;}
+    H --&gt;|&quot;No&quot;| F1
+    H --&gt;|&quot;Yes&quot;| E([&quot;STOP&quot;])
+</div>
+<hr>
+<h2>3. Evolution and Computer Generations</h2>
+<table>
+<thead>
+<tr>
+<th>Generation</th>
+<th>Period</th>
+<th>Main Device</th>
+<th>Memory</th>
+<th>Logic / Speed</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1st</strong></td>
+<td>1946–1957</td>
+<td>Vacuum tubes / valves</td>
+<td>Magnetic drum, mercury delay lines</td>
+<td>Machine language, ~10⁴ ops/s, huge power &amp; heat</td>
+<td>ENIAC, EDVAC, UNIVAC, IAS machine</td>
+</tr>
+<tr>
+<td><strong>2nd</strong></td>
+<td>1958–1964</td>
+<td>Transistors</td>
+<td>Magnetic core memory</td>
+<td>Assembly language, more reliable, cheaper, cooler</td>
+<td>IBM 7090, IBM 1401</td>
+</tr>
+<tr>
+<td><strong>3rd</strong></td>
+<td>1965–1971</td>
+<td>SSI/MSI ICs (small &amp; medium scale)</td>
+<td>Core → semiconductor RAM</td>
+<td>High-level languages (FORTRAN, COBOL), OS, multiprogramming</td>
+<td>IBM 360, PDP-8</td>
+</tr>
+<tr>
+<td><strong>4th</strong></td>
+<td>1972–1990</td>
+<td>LSI / VLSI (thousands–millions of transistors)</td>
+<td>Semiconductor RAM, cache, virtual memory</td>
+<td>Microprocessors, personal computers, C, networks</td>
+<td>Intel 8080/8086, Motorola 68000</td>
+</tr>
+<tr>
+<td><strong>5th</strong></td>
+<td>1991→</td>
+<td>ULSI / multi-core, GPUs, parallel processing</td>
+<td>GB–TB main memory, SSD, distributed memory</td>
+<td>Parallel processing, AI, expert systems, GUI</td>
+<td>Modern multi-core PCs, supercomputers</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Trend (Moore's Law):</strong> transistor count roughly doubles every ~2 years → cost per bit falls, speed rises.</p>
+<div class="mermaid">
+flowchart LR
+    G1[&quot;1st Gen&lt;br/&gt;Vacuum Tubes&lt;br/&gt;1946-57&quot;] --&gt; G2[&quot;2nd Gen&lt;br/&gt;Transistors&lt;br/&gt;1958-64&quot;]
+    G2 --&gt; G3[&quot;3rd Gen&lt;br/&gt;ICs (SSI/MSI)&lt;br/&gt;1965-71&quot;]
+    G3 --&gt; G4[&quot;4th Gen&lt;br/&gt;VLSI / Microprocessor&lt;br/&gt;1972-90&quot;]
+    G4 --&gt; G5[&quot;5th Gen&lt;br/&gt;ULSI / Parallel / AI&lt;br/&gt;1991 - today&quot;]
+</div>
+<h2>---</h2>
+<h2>4. Data Representation</h2>
+<h3>4.1 Number Systems &amp; Conversion</h3>
+<p>A number in radix <strong>r</strong> = Σ (digit × rᵏ).</p>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>Radix</th>
+<th>Symbols</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Decimal</td>
+<td>10</td>
+<td>0–9</td>
+</tr>
+<tr>
+<td>Binary</td>
+<td>2</td>
+<td>0, 1</td>
+</tr>
+<tr>
+<td>Octal</td>
+<td>8</td>
+<td>0–7</td>
+</tr>
+<tr>
+<td>Hexadecimal</td>
+<td>16</td>
+<td>0–9, A–F</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>2³ = 8 → <strong>1 octal digit = 3 binary bits</strong></li>
+<li>2⁴ = 16 → <strong>1 hex digit = 4 binary bits</strong></li>
+<li>Binary → octal: group bits in 3s (from binary point). Binary → hex: group in 4s.</li>
+</ul>
+<p><strong>Conversion flowchart (Fig. 3-1):</strong></p>
+<div class="mermaid">
+flowchart TD
+    START([&quot;Convert (number)₁₀ to radix r&quot;]) --&gt; SPLIT[&quot;Split into&lt;br/&gt;INTEGER part and&lt;br/&gt;FRACTION part&quot;]
+
+    SPLIT --&gt; INT[&quot;INTEGER PART&lt;br/&gt;successive DIVISION by r&quot;]
+    INT --&gt; INTL[&quot;Remainders collected;&lt;br/&gt;FIRST remainder = LEAST significant digit&quot;]
+    INT --&gt; INTQ{&quot;Integer quotient&lt;br/&gt;= 0 ?&quot;}
+    INTQ --&gt;|&quot;No&quot;| INT
+    INTQ --&gt;|&quot;Yes&quot;| INTDONE[&quot;Done&quot;]
+
+    SPLIT --&gt; FRAC[&quot;FRACTION PART&lt;br/&gt;successive MULTIPLICATION by r&quot;]
+    FRAC --&gt; FRACI[&quot;Integer digits collected;&lt;br/&gt;FIRST integer = digit just&lt;br/&gt;to the RIGHT of the point&quot;]
+    FRAC --&gt; FRACC{&quot;Fraction part&lt;br/&gt;= 0 (or enough digits) ?&quot;}
+    FRACC --&gt;|&quot;No&quot;| FRAC
+    FRACC --&gt;|&quot;Yes&quot;| FRACDONE[&quot;Done&quot;]
+
+    INTDONE --&gt; JOIN[&quot;Join integer and fraction parts&quot;]
+    FRACDONE --&gt; JOIN
+    JOIN --&gt; RES([&quot;Result in radix r&quot;])
+</div>
+<blockquote>
+<p><strong>Example:</strong> 41.6875₁₀ → 41 ÷ 2 repeatedly gives remainders 1,0,0,1,0,1 (LSB first) = 101001₂; 0.6875 × 2 repeatedly gives 1,0,1,1 = .1011₂. So <strong>41.6875₁₀ = 101001.1011₂</strong>.</p>
+</blockquote>
+<h3>4.2 Complements</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>(r−1)'s complement</strong> (diminished radix)</th>
+<th><strong>r's complement</strong> (radix)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Binary</td>
+<td>1's complement — invert every bit</td>
+<td>2's complement — 1's complement <strong>+ 1</strong></td>
+</tr>
+<tr>
+<td>Decimal</td>
+<td>9's complement — subtract each digit from 9</td>
+<td>10's complement — 9's complement <strong>+ 1</strong></td>
+</tr>
+<tr>
+<td>Octal</td>
+<td>7's complement</td>
+<td>8's complement</td>
+</tr>
+<tr>
+<td>Hex</td>
+<td>F's complement</td>
+<td>10's complement (hex)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>For an <em>n</em>-digit number N with radix r: <strong>(r−1)'s comp of N = rⁿ − 1 − N</strong>, <strong>r's comp of N = rⁿ − N</strong>.</li>
+<li>Special case: if N = 0, r's comp = 0 (no wrap-around).</li>
+<li><strong>Subtraction:</strong> A − B = A + (r's comp of B), then <strong>discard the end carry</strong>. If carry occurs → result positive. If no carry → result is negative, take r's complement of the sum and attach a − sign.</li>
+</ul>
+<h3>4.3 Fixed-Point Representation</h3>
+<p>Fixed point = the binary point is placed at a <strong>fixed</strong> position (usually rightmost for integers, or after the sign for fractions).</p>
+<p><strong>Three representations of negative numbers:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Decimal</th>
+<th>Signed-Magnitude (8 bit)</th>
+<th>1's Complement</th>
+<th>2's Complement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+33</td>
+<td><code>00100001</code></td>
+<td><code>00100001</code></td>
+<td><code>00100001</code></td>
+</tr>
+<tr>
+<td>−33</td>
+<td><code>10100001</code></td>
+<td><code>11011110</code></td>
+<td><code>11011111</code></td>
+</tr>
+<tr>
+<td>+0</td>
+<td><code>00000000</code></td>
+<td><code>00000000</code></td>
+<td><code>00000000</code></td>
+</tr>
+<tr>
+<td>−0</td>
+<td><code>10000000</code></td>
+<td><code>11111111</code></td>
+<td><strong>none</strong> (0 only)</td>
+</tr>
+<tr>
+<td>Range (n bits)</td>
+<td>−(2ⁿ⁻¹−1) … +(2ⁿ⁻¹−1)</td>
+<td>−(2ⁿ⁻¹−1) … +(2ⁿ⁻¹−1)</td>
+<td><strong>−2ⁿ⁻¹ … +(2ⁿ⁻¹−1)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rules for signed 2's complement addition:</strong>
+1. Add the numbers <strong>including</strong> the sign bits.
+2. A carry out of the sign-bit position is <strong>discarded</strong>.
+3. <strong>Overflow</strong> occurs when the sum needs n+1 digits. Detect it by <strong>XOR of the last two carries</strong> (equivalently: overflow can only happen when adding two numbers of the <strong>same</strong> sign and getting a result of opposite sign).</p>
+<p><strong>Rules for signed-magnitude:</strong> signs handled separately — same sign ⇒ add magnitudes, result takes that sign; different sign ⇒ subtract smaller from larger, result takes the sign of the larger.</p>
+<h3>4.4 Floating-Point Representation</h3>
+<p>A floating-point number is written as</p>
+<blockquote>
+<p><strong>N = m × rᵉ</strong></p>
+<ul>
+<li><strong>m = mantissa</strong> — a signed <em>fixed-point</em> number</li>
+<li><strong>e = exponent</strong> — tells where the radix point is</li>
+<li><strong>r = radix</strong> (assumed, not stored)</li>
+</ul>
+</blockquote>
+<p><em>Example:</em> +6132.789 → mantissa <code>+0.6132789</code>, exponent <code>+04</code> → 0.6132789 × 10⁴.</p>
+<p><strong>Normalized</strong> = the most significant digit of the mantissa is <strong>non-zero</strong>. Normalization gives the <strong>maximum precision</strong> for a given number of bits.</p>
+<ul>
+<li><code>00011010</code> is NOT normalized → shift left 3 times → <code>11010000</code>, and subtract 3 from the exponent (shifting left by 3 multiplies by 2³ = 8, so the exponent must decrease by 3 to keep the value).</li>
+</ul>
+<div class="mermaid">
+flowchart TD
+    A([&quot;Floating-point operation&lt;br/&gt;e.g. (m1, e1) + (m2, e2)&quot;]) --&gt; B[&quot;Compare exponents&lt;br/&gt;e1 vs e2&quot;]
+    B --&gt; C[&quot;Shift the smaller exponent&#x27;s&lt;br/&gt;mantissa right until&lt;br/&gt;exponents are EQUAL&lt;br/&gt;(align the radix points)&quot;]
+    C --&gt; D[&quot;Perform the operation on&lt;br/&gt;MANTISSAS (add / sub / mul / div)&quot;]
+    D --&gt; E{&quot;Result mantissa&lt;br/&gt;normalized?&quot;}
+    E --&gt;|&quot;No&quot;| F[&quot;Shift mantissa &amp;amp;&lt;br/&gt;adjust exponent&quot;]
+    E --&gt;|&quot;Yes&quot;| G[&quot;Check exponent&lt;br/&gt;range → underflow / overflow&quot;]
+    F --&gt; G
+    G --&gt; H([&quot;Store m and e&quot;])
+</div>
+<h3>4.5 Decimal (BCD) Representation &amp; Arithmetic</h3>
+<ul>
+<li>Each decimal digit = 4 bits (8421 code). Sign digit: <strong><code>0000</code> (+)</strong>, <strong><code>1001</code> (−)</strong> i.e. 9 for minus.</li>
+<li>Prefer the <strong>10's complement</strong> system (9's complement then +1 to the least significant digit).</li>
+<li>Addition: add all digits <strong>including the sign digit</strong> and <strong>discard the end carry</strong>.</li>
+<li>Arithmetic with BCD is done by a <strong>BCD adder</strong> (see §6.7).</li>
+</ul>
+<p><em>Example:</em> (+375) + (−240) in signed 10's complement:
+<code>0375 + 9760 = 0135</code> (end carry discarded) → <strong>+135</strong>.</p>
+<h3>4.6 Other Binary Codes</h3>
+<ul>
+<li><strong>Gray code</strong> — only <strong>one bit changes</strong> at a time between successive values (used in Karnaugh maps, shaft encoders, error minimisation).</li>
+<li><strong>ASCII</strong> — 7 bits → 128 characters (letters, digits, punctuation, control).</li>
+<li><strong>Error detection codes</strong> — <strong>parity bit</strong> (odd/even), <strong>Hamming code</strong> (single-error correction), <strong>checksum</strong>.</li>
+</ul>
+<h2>---</h2>
+<h2>5. Digital Arithmetic Algorithms (with Flowcharts)</h2>
+<blockquote>
+<p><strong>Algorithm</strong> = a finite number of well-defined procedural steps.
+In a flowchart: <strong>rectangles = computational steps</strong>, <strong>diamonds = decision steps</strong>.</p>
+</blockquote>
+<h3>5.1 Addition &amp; Subtraction — Signed-Magnitude (Fig. 10-2)</h3>
+<p><strong>Hardware:</strong> registers A (magnitude) &amp; Aₛ (sign), B &amp; Bₛ; parallel adder; complementer (mode M) ; end-carry flip-flop <strong>E</strong>; add-overflow flip-flop <strong>AVF</strong>.
+Subtraction/comparison is done as <strong>A + 2's complement of B</strong> (one adder + one complementer instead of two subtractors + comparator).</p>
+<div class="mermaid">
+flowchart TD
+    ST([&quot;START&quot;]) --&gt; IN1[&quot;SUBTRACT: minuend in A, subtrahend in B&lt;br/&gt;ADD: augend in A, addend in B&lt;br/&gt;signs in Aₛ and Bₛ&quot;]
+    IN1 --&gt; XS{&quot;Aₛ XOR Bₛ ?&lt;br/&gt;0 = signs identical&lt;br/&gt;1 = signs different&quot;}
+
+    XS --&gt;|&quot;identical&quot;| P1{&quot;operation?&quot;}
+    XS --&gt;|&quot;different&quot;| P2{&quot;operation?&quot;}
+
+    ADDM[&quot;ADD MAGNITUDES&lt;br/&gt;EA ← E + A + B&lt;br/&gt;AVF ← E  (overflow flag)&lt;br/&gt;result sign = Aₛ&quot;]
+    SUBM[&quot;SUBTRACT MAGNITUDES&lt;br/&gt;EA ← E + A + B + 1&lt;br/&gt;(i.e. A plus 2s complement of B)&lt;br/&gt;AVF ← 0&quot;]
+
+    P1 --&gt;|&quot;ADD&quot;| ADDM
+    P1 --&gt;|&quot;SUB&quot;| SUBM
+    P2 --&gt;|&quot;ADD&quot;| SUBM
+    P2 --&gt;|&quot;SUB&quot;| ADDM
+
+    ADDM --&gt; FIN([&quot;END — result in A and Aₛ&quot;])
+
+    SUBM --&gt; ETEST{&quot;End carry E ?&quot;}
+
+    ETEST --&gt;|&quot;E = 1, so A is greater or equal&quot;| Z{&quot;A = 0 ?&quot;}
+    ETEST --&gt;|&quot;E = 0, so A is smaller&quot;| NEG[&quot;A ← A + 1&lt;br/&gt;(take 2s complement of result)&lt;br/&gt;Aₛ ← complement of Aₛ&quot;]
+
+    Z --&gt;|&quot;Yes&quot;| FIX[&quot;Aₛ ← 0&lt;br/&gt;(avoid a negative zero)&quot;]
+    Z --&gt;|&quot;No&quot;| FIN
+    FIX --&gt; FIN
+    NEG --&gt; FIN
+</div>
+<h3>5.2 Addition &amp; Subtraction — Signed 2's Complement (Fig. 10-4)</h3>
+<p><strong>Much simpler</strong> — no sign comparison, no magnitude comparison.</p>
+<p><strong>Hardware:</strong> AC (accumulator) and BR, complementer + parallel adder, overflow flip-flop <strong>V</strong> (V = carryₙ₋₁ XOR carryₙ).</p>
+<div class="mermaid">
+flowchart TD
+    ST([&quot;START&quot;]) --&gt; CH{&quot;ADD or&lt;br/&gt;SUBTRACT ?&quot;}
+
+    CH --&gt;|&quot;ADD&quot;| A1[&quot;Augend in AC, Addend in BR&lt;br/&gt;&lt;b&gt;AC ← AC + BR&lt;/b&gt;&lt;br/&gt;V ← overflow&quot;]
+    CH --&gt;|&quot;SUBTRACT&quot;| S1[&quot;Minuend in AC, Subtrahend in BR&lt;br/&gt;&lt;b&gt;AC ← AC + BR + 1&lt;/b&gt;&lt;br/&gt;(AC + 2&#x27;s comp of BR)&lt;br/&gt;V ← overflow&quot;]
+
+    A1 --&gt; DIS[&quot;Discard carry out of&lt;br/&gt;the sign-bit position&quot;]
+    S1 --&gt; DIS
+    DIS --&gt; CHK{&quot;V = 1 ?&quot;}
+    CHK --&gt;|&quot;Yes&quot;| ERR[&quot;Result in AC is&lt;br/&gt;&lt;b&gt;ERRONEOUS&lt;/b&gt;&lt;br/&gt;report overflow&quot;]
+    CHK --&gt;|&quot;No&quot;| FIN([&quot;END — result in AC&quot;])
+    ERR --&gt; FIN
+</div>
+<blockquote>
+<p><strong>Why 2's complement is preferred:</strong> it eliminates sign comparison, magnitude comparison and the negative-zero problem — <em>"most computers adopt this representation over the more familiar signed-magnitude."</em></p>
+</blockquote>
+<h3>5.3 Multiplication — Signed-Magnitude (Fig. 10-6)</h3>
+<p>Paper-and-pencil method: look at each multiplier bit, LSB first; if 1 copy the multiplicand, if 0 copy zeros; shift left each line; add.</p>
+<p><strong>Hardware registers:</strong> B = multiplicand, Q = multiplier, A = partial product (cleared), E = extension, <strong>SC = sequence counter</strong> (loaded with n = number of multiplier bits).</p>
+<div class="mermaid">
+flowchart TD
+    ST([&quot;START&quot;]) --&gt; INIT[&quot;Multiplicand in B, Multiplier in Q&lt;br/&gt;A ← 0,  E ← 0&lt;br/&gt;Aₛ ← Bₛ XOR Qₛ   (sign of product)&lt;br/&gt;SC ← n&quot;]
+    INIT --&gt; T{&quot;Q₀ = ?&lt;br/&gt;(least significant&lt;br/&gt;bit of Q)&quot;}
+    T --&gt;|&quot;1&quot;| ADD[&quot;EA ← E + A + B&lt;br/&gt;(add multiplicand)&quot;]
+    T --&gt;|&quot;0&quot;| NOOP[&quot;No addition&quot;]
+    ADD --&gt; SH
+    NOOP --&gt; SH
+    SH[&quot;Arithmetic shift right:&lt;br/&gt;shr EAQ&lt;br/&gt;(product shifts into Q, pushing the&lt;br/&gt;multiplier bits out to the right)&quot;]
+    SH --&gt; DEC[&quot;SC ← SC − 1&quot;]
+    DEC --&gt; Z{&quot;SC = 0 ?&quot;}
+    Z --&gt;|&quot;No&quot;| T
+    Z --&gt;|&quot;Yes&quot;| FIN([&quot;END — product in &lt;b&gt;AQ&lt;/b&gt;&lt;br/&gt;(A = most significant,&lt;br/&gt;Q = least significant)&quot;])
+</div>
+<h3>5.4 Booth's Multiplication Algorithm (Signed 2's Complement) — Fig. 10-8</h3>
+<p><strong>Idea:</strong> a string of 1's from weight 2ᵏ to 2ᵐ equals <strong>2ᵏ⁺¹ − 2ᵐ</strong>.
+So <code>001110</code> (+14) = 2⁴ − 2¹ = 16 − 2 = 14 → M × 14 = shift M left 4 times <strong>minus</strong> M shifted left once.</p>
+<p><strong>Rules</strong> (inspect two adjacent multiplier bits <strong>Qₙ</strong> and <strong>Qₙ₊₁</strong>, where Qₙ₊₁ is an extra appended flip-flop):</p>
+<table>
+<thead>
+<tr>
+<th>Qₙ Qₙ₊₁</th>
+<th>Meaning</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0 1</strong></td>
+<td>first <code>0</code> after a string of <code>1</code>s</td>
+<td><strong>AC ← AC + BR</strong> (add multiplicand)</td>
+</tr>
+<tr>
+<td><strong>1 0</strong></td>
+<td>first <code>1</code> after a string of <code>0</code>s</td>
+<td><strong>AC ← AC + BR + 1</strong> (i.e. <strong>subtract</strong> BR)</td>
+</tr>
+<tr>
+<td><strong>0 0</strong> or <strong>1 1</strong></td>
+<td>same bit repeated</td>
+<td><strong>No change</strong> (only shift)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Works for <strong>positive and negative</strong> multipliers and multiplicands, because a negative multiplier ends with a string of 1's.</li>
+<li><strong>Overflow can never occur</strong> — an addition and a subtraction always follow each other, so the two numbers being added always have <strong>opposite signs</strong>.</li>
+</ul>
+<p><strong>Hardware:</strong> AC, BR, QR (multiplier), extra flip-flop <strong>Qₙ₊₁</strong>, complementer + parallel adder, sequence counter SC.</p>
+<div class="mermaid">
+flowchart TD
+    ST([&quot;START&quot;]) --&gt; INIT[&quot;Multiplicand in BR&lt;br/&gt;Multiplier in QR&lt;br/&gt;AC ← 0,  Qₙ₊₁ ← 0,  SC ← n&quot;]
+    INIT --&gt; DEC{&quot;Inspect two bits&lt;br/&gt;&lt;b&gt;Qₙ  Qₙ₊₁&lt;/b&gt; ?&quot;}
+
+    DEC --&gt;|&quot;1 0&quot;| SUB[&quot;&lt;b&gt;AC ← AC + BR + 1&lt;/b&gt;&lt;br/&gt;(subtract multiplicand)&quot;]
+    DEC --&gt;|&quot;0 1&quot;| ADD[&quot;&lt;b&gt;AC ← AC + BR&lt;/b&gt;&lt;br/&gt;(add multiplicand)&quot;]
+    DEC --&gt;|&quot;0 0 / 1 1&quot;| NOP[&quot;Partial product unchanged&quot;]
+
+    SUB --&gt; SHIFT
+    ADD --&gt; SHIFT
+    NOP --&gt; SHIFT
+
+    SHIFT[&quot;&lt;b&gt;ashr (AC &amp;amp; QR)&lt;/b&gt;&lt;br/&gt;arithmetic shift right of the&lt;br/&gt;whole AC·QR·Qₙ₊₁ register&lt;br/&gt;(sign bit of AC preserved)&quot;]
+    SHIFT --&gt; DEC2[&quot;SC ← SC − 1&quot;]
+    DEC2 --&gt; ZERO{&quot;SC = 0 ?&quot;}
+    ZERO --&gt;|&quot;No&quot;| DEC
+    ZERO --&gt;|&quot;Yes&quot;| FIN([&quot;END — product in &lt;b&gt;AC · QR&lt;/b&gt;&lt;br/&gt;2n bits&lt;br/&gt;(final Qₙ₊₁ is the original&lt;br/&gt;sign bit, NOT part of product)&quot;])
+</div>
+<h4>Worked Example: (−9) × (−13) = +117</h4>
+<p>BR = <code>10111</code> (−9), QR = <code>10011</code> (−13), n = 5.</p>
+<table>
+<thead>
+<tr>
+<th>SC</th>
+<th>Qₙ Qₙ₊₁</th>
+<th>Operation</th>
+<th>AC</th>
+<th>QR</th>
+<th>Qₙ₊₁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>101</td>
+<td>—</td>
+<td>initial</td>
+<td><code>00000</code></td>
+<td><code>10011</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td>101</td>
+<td><strong>1 0</strong></td>
+<td>AC ← AC − BR</td>
+<td><code>01001</code></td>
+<td><code>10011</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>ashr, SC ← 100</td>
+<td><code>00100</code></td>
+<td><code>11001</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td>100</td>
+<td><strong>1 1</strong></td>
+<td>no change</td>
+<td><code>00100</code></td>
+<td><code>11001</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>ashr, SC ← 011</td>
+<td><code>00010</code></td>
+<td><code>01100</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td>011</td>
+<td><strong>0 1</strong></td>
+<td>AC ← AC + BR</td>
+<td><code>11001</code></td>
+<td><code>01100</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>ashr, SC ← 010</td>
+<td><code>11100</code></td>
+<td><code>10110</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td>010</td>
+<td><strong>0 0</strong></td>
+<td>no change</td>
+<td><code>11100</code></td>
+<td><code>10110</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>ashr, SC ← 001</td>
+<td><code>11110</code></td>
+<td><code>01011</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td>001</td>
+<td><strong>1 0</strong></td>
+<td>AC ← AC − BR</td>
+<td><code>00111</code></td>
+<td><code>01011</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>ashr, SC ← 000</td>
+<td><code>00011</code></td>
+<td><code>10101</code></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Product = AC · QR = <code>00011 10101</code> = <code>0001110101₂</code> = +117 ✔</strong></p>
+<h3>5.5 Division (Signed Magnitude) — brief</h3>
+<ul>
+<li>Similar to multiplication but <strong>shift-and-subtract</strong>: compare magnitudes, subtract if minuend ≥ subtrahend (quotient bit = 1), else shift (quotient bit = 0).</li>
+<li><strong>Divide overflow</strong>: the most significant bit of the dividend = 1 → the quotient would not fit → error.</li>
+<li>Restoration / non-restoration methods also exist.</li>
+</ul>
+<h3>5.6 Floating-Point Arithmetic Operations</h3>
+<table>
+<thead>
+<tr>
+<th>Op</th>
+<th>Steps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Add / Sub</strong></td>
+<td>1. Compare exponents 2. Align (shift smaller mantissa right) 3. Add/subtract mantissas 4. Normalize 5. Check exponent range</td>
+</tr>
+<tr>
+<td><strong>Multiply</strong></td>
+<td>Add exponents, multiply mantissas, normalize</td>
+</tr>
+<tr>
+<td><strong>Divide</strong></td>
+<td>Subtract exponents, divide mantissas, normalize</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Registers:</strong> usually <code>E</code> (operand 1), <code>A</code> (operand 2), <code>B</code> (accumulator/quotient), <code>SC</code>.</p>
+<h3>5.7 Decimal Arithmetic (BCD)</h3>
+<p><strong>BCD Adder (Fig. 10-18):</strong> add the two 4-bit digits; if the sum &gt; 9 <strong>or</strong> a carry-out (Cout = 1) is produced, <strong>add <code>0110</code> (6)</strong> to the 4-bit sum and generate a carry to the next decimal position.</p>
+<div class="mermaid">
+flowchart TD
+    IN[&quot;Two BCD digits + Cin&quot;] --&gt; ADD[&quot;4-bit binary adder&quot;]
+    ADD --&gt; SUM[&quot;4-bit sum S3..S0 + Cout&quot;]
+    SUM --&gt; DEC{&quot;S &gt; 9  OR  Cout = 1 ?&quot;}
+    DEC --&gt;|&quot;Yes&quot;| FIX[&quot;Add 0110 (6) to the 4-bit sum&lt;br/&gt;Cout ← 1&quot;]
+    DEC --&gt;|&quot;No&quot;| OK[&quot;Keep sum as is&lt;br/&gt;Cout ← 0&quot;]
+    FIX --&gt; OUT([&quot;BCD sum + carry to next digit&quot;])
+    OK --&gt; OUT
+</div>
+<p><strong>BCD subtraction:</strong> take the 10's complement of the subtrahend and add (discard end carry).</p>
+<h2>---</h2>
+<h2>6. Performance — MIPS and MFLOPS</h2>
+<p>Let
+* <strong>IC</strong> = instruction count, <strong>CPI</strong> = cycles per instruction, <strong>τ</strong> = clock cycle time, <strong>f</strong> = clock frequency (Hz).</p>
+<p>Then <strong>CPU execution time = IC × CPI × τ = (IC × CPI) / f</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MIPS</strong> (Million Instructions Per Second)</td>
+<td><code>MIPS = IC / (T × 10⁶) = f / (CPI × 10⁶)</code></td>
+<td>How many <em>machine instructions</em> per second</td>
+</tr>
+<tr>
+<td><strong>MFLOPS</strong> (Million FLOPS)</td>
+<td><code>MFLOPS = (number of FP operations) / (T × 10⁶)</code></td>
+<td>How many <em>floating-point</em> operations per second</td>
+</tr>
+<tr>
+<td><strong>CPI</strong></td>
+<td><code>cycles / instruction</code></td>
+<td>Lower is better</td>
+</tr>
+<tr>
+<td><strong>Throughput</strong></td>
+<td>instructions or jobs completed per unit time</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Caution:</strong> MIPS is misleading — a machine with a rich floating-point set may have a <em>lower</em> MIPS but be faster. A computer with a high MIPS rating may still be slow. <strong>MFLOPS</strong> is the better metric for scientific/numeric work; <strong>benchmarks</strong> are best of all.</p>
+<pre><code>Worked example:
+  100 instructions, clock = 100 MHz, CPI = 2
+  Execution time = 100 × 2 / 10⁸ = 2 × 10⁻⁶ s = 2 µs
+  MIPS = 100 / (2 × 10⁻⁶ × 10⁶) = 100 / 2 = 50 MIPS
+  Also: MIPS = f / (CPI × 10⁶) = 100×10⁶ / (2 × 10⁶) = 50 MIPS  ✔
+</code></pre>
+<h2>---</h2>
+<h2>7. Multiprocessors and Multicomputer</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Multiprocessor</strong></th>
+<th><strong>Multicomputer</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Definition</td>
+<td>Two or more <strong>CPUs</strong> sharing memory / I/O under <strong>one OS</strong></td>
+<td>Several <strong>autonomous computers</strong> connected by communication lines (a network)</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>Shared global memory (tightly coupled) <strong>or</strong> distributed local memory (loosely coupled)</td>
+<td>Each node has its <strong>own private memory</strong></td>
+</tr>
+<tr>
+<td>Communication</td>
+<td>Shared memory reads/writes</td>
+<td><strong>Message passing</strong> in packets (address + data + error code)</td>
+</tr>
+<tr>
+<td>Control</td>
+<td>One OS provides interaction among processors</td>
+<td>Autonomous, may or may not communicate</td>
+</tr>
+<tr>
+<td>Classification</td>
+<td><strong>MIMD</strong> (Multiple Instruction, Multiple Data stream)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why use them</strong>
+1. <strong>Improved performance</strong> — (a) multiple independent jobs run in parallel, (b) one job is split into parallel tasks (compiler detects data dependencies).
+2. <strong>Improved reliability / graceful degradation</strong> — if one processor fails, another takes over its functions.
+3. Microprocessors + VLSI made it cheap to connect many CPUs.</p>
+<p><strong>Tightly vs loosely coupled</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tightly coupled (shared memory)</th>
+<th>Loosely coupled (distributed memory)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Common global memory all CPUs access</td>
+<td>Each PE has private local memory</td>
+</tr>
+<tr>
+<td>Usually a cache per CPU</td>
+<td>Connected by a switching scheme</td>
+</tr>
+<tr>
+<td>Can tolerate a <strong>high degree of interaction</strong> between tasks</td>
+<td>Most efficient when interaction between tasks is <strong>minimal</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interconnection structures:</strong></p>
+<div class="mermaid">
+flowchart LR
+    MUX[&quot;Interconnection&lt;br/&gt;Network&quot;] --&gt; S1[&quot;Time-shared&lt;br/&gt;common bus&quot;]
+    MUX --&gt; S2[&quot;Multiport&lt;br/&gt;memory&quot;]
+    MUX --&gt; S3[&quot;Crossbar&lt;br/&gt;switch&quot;]
+    MUX --&gt; S4[&quot;Multistage&lt;br/&gt;switching network&quot;]
+    MUX --&gt; S5[&quot;Hypercube&lt;br/&gt;system&quot;]
+
+    S1 --&gt; N1[&quot;Simple &amp;amp; cheap,&lt;br/&gt;but only ONE processor&lt;br/&gt;transfers at a time →&lt;br/&gt;needs a bus arbiter&lt;br/&gt;(transfer conflicts)&quot;]
+    S2 --&gt; N2[&quot;Each processor has its own&lt;br/&gt;port into memory;&lt;br/&gt;parallel transfers, costly&quot;]
+    S3 --&gt; N3[&quot;n processors × m memory modules&lt;br/&gt;via an n × m crossbar; fully&lt;br/&gt;parallel but hardware cost n×m&quot;]
+    S4 --&gt; N4[&quot;Cheaper than crossbar:&lt;br/&gt;stages of 2×2 switches&quot;]
+    S5 --&gt; N5[&quot;Nodes = 2^k;&lt;br/&gt;each node connected to k&lt;br/&gt;neighbours (log₂N links)&quot;]
+</div>
+<p><strong>Also relevant:</strong> <strong>cache coherence</strong> problem (each CPU has its own cache of shared memory → inconsistent copies) and its solutions (snooping / directory-based protocols).</p>
+<h2>---</h2>
+<h2>8. Memory Organization</h2>
+<h3>8.1 Memory Hierarchy — Why?</h3>
+<ul>
+<li><strong>Goal:</strong> <em>"to obtain the highest-possible average access speed while minimizing the total cost of the entire memory system."</em></li>
+<li>No single memory is simultaneously <strong>large, fast and cheap</strong>.</li>
+<li><strong>Economics:</strong> as capacity ↑, cost per bit ↓ <strong>but</strong> access time ↑.</li>
+<li><strong>Locality of reference:</strong> programs repeatedly use a small working set of locations (temporal + spatial locality) — so a small fast memory holding that working set gives most of the benefit.</li>
+</ul>
+<div class="mermaid">
+flowchart TD
+    subgraph H[&quot;MEMORY HIERARCHY  (top = fastest, smallest, most expensive per bit)&quot;]
+        direction TB
+        L0[&quot;REGISTER FILE&lt;br/&gt;in CPU&quot;]
+        L1[&quot;CACHE MEMORY&lt;br/&gt;(SRAM)&quot;]
+        L2[&quot;MAIN MEMORY&lt;br/&gt;(DRAM) — communicates&lt;br/&gt;directly with CPU&quot;]
+        L3[&quot;AUXILIARY / SECONDARY&lt;br/&gt;magnetic disk&quot;]
+        L4[&quot;TAPE&lt;br/&gt;(offline, sequential)&quot;]
+        L0 --&gt; L1
+        L1 --&gt; L2
+        L2 --&gt; L3
+        L3 --&gt; L4
+    end
+    L1 -.-&gt;|&quot;block transfer&lt;br/&gt;CPU ↔ cache&quot;| CPU[&quot;CPU&quot;]
+    L2 -.-&gt;|&quot;block transfer&lt;br/&gt;cache ↔ main memory&quot;| L1
+    L3 -.-&gt;|&quot;block transfer by DMA&lt;br/&gt;aux ↔ main memory&quot;| L2
+</div>
+<p><strong>Typical numbers (Mano, Sec. 12-1):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Access time</th>
+<th>Block size</th>
+<th>Cost/bit</th>
+<th>Speed vs. main memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cache</td>
+<td>~100 ns</td>
+<td>1–16 words</td>
+<td>highest</td>
+<td>~<strong>1 : 7</strong> vs main memory (700 ns)</td>
+</tr>
+<tr>
+<td>Main memory</td>
+<td>~700 ns</td>
+<td>—</td>
+<td>medium</td>
+<td>baseline</td>
+</tr>
+<tr>
+<td>Auxiliary (disk)</td>
+<td>~1000 × main memory</td>
+<td>256–2048 words</td>
+<td>lowest</td>
+<td>~1000× slower</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Multiprogramming:</strong> two or more programs reside in different parts of the memory hierarchy at the same time, so the CPU is never idle waiting on I/O. The OS + <strong>memory management system</strong> supervises the flow of information between auxiliary and main memory.</p>
+<h3>8.2 Types of Memory (Classification)</h3>
+<div class="mermaid">
+flowchart LR
+    M[&quot;MEMORY&quot;] --&gt; V[&quot;&lt;b&gt;By VOLATILITY&lt;/b&gt;&lt;br/&gt;• &lt;b&gt;Volatile&lt;/b&gt; — loses data when power off:&lt;br/&gt;registers, cache, RAM&lt;br/&gt;• &lt;b&gt;Non-volatile&lt;/b&gt; — retains data:&lt;br/&gt;ROM, magnetic disk, tape, Flash&quot;]
+    M --&gt; A[&quot;&lt;b&gt;By ACCESS METHOD&lt;/b&gt;&lt;br/&gt;• &lt;b&gt;Random access&lt;/b&gt; — RAM, ROM (any&lt;br/&gt;location in equal time)&lt;br/&gt;• &lt;b&gt;Sequential&lt;/b&gt; — magnetic tape&lt;br/&gt;• &lt;b&gt;Direct&lt;/b&gt; — disk (track + sector)&lt;br/&gt;• &lt;b&gt;Associative / content-addressed&lt;/b&gt; —&lt;br/&gt;searched by DATA, not address&lt;br/&gt;(cache tags, TLB)&quot;]
+    M --&gt; U[&quot;&lt;b&gt;By USE&lt;/b&gt;&lt;br/&gt;• Main memory&lt;br/&gt;• Cache memory&lt;br/&gt;• Auxiliary (secondary) memory&lt;br/&gt;• Control memory (microprogram ROM)&quot;]
+    M --&gt; T[&quot;&lt;b&gt;By TECHNOLOGY&lt;/b&gt;&lt;br/&gt;• &lt;b&gt;SRAM&lt;/b&gt; — flip-flops, fast, costly, no refresh&lt;br/&gt;• &lt;b&gt;DRAM&lt;/b&gt; — capacitors, needs refresh,&lt;br/&gt;denser and cheaper&lt;br/&gt;• &lt;b&gt;ROM / PROM / EPROM / EEPROM&lt;/b&gt; —&lt;br/&gt;non-volatile, bootstrap loader&lt;br/&gt;• Magnetic disk / tape / SSD&quot;]
+</div>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>RAM</th>
+<th>ROM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read/Write</td>
+<td>Both</td>
+<td><strong>Read only</strong></td>
+</tr>
+<tr>
+<td>Volatile</td>
+<td><strong>Yes</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Contents</td>
+<td>Programs &amp; data that change</td>
+<td>Bootstrap loader, constant tables, firmware</td>
+</tr>
+<tr>
+<td>Sub-types</td>
+<td><strong>SRAM</strong> (flip-flops, no refresh, fast, costly) / <strong>DRAM</strong> (capacitors, needs refresh, dense, cheap)</td>
+<td>PROM, EPROM, EEPROM, Flash, Mask ROM</td>
+</tr>
+<tr>
+<td>Chip-select / bus</td>
+<td>Bidirectional data bus, CS1=1 &amp; CS2=0, RD/WR</td>
+<td>Output-only data bus, CS only, no RD/WR</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Associative memory (CAM):</strong> addressed by <em>content</em>. The word searched for is applied to all comparison lines simultaneously → match found in one access. Used for <strong>cache tags</strong> and the <strong>TLB</strong>.</p>
+<p><strong>Memory address map:</strong> a table assigning address ranges to each RAM/ROM chip.</p>
+<h3>8.3 Cache Memory</h3>
+<p>Placed between CPU and main memory to <strong>compensate for the speed differential</strong> between fast CPU logic and slow main memory.</p>
+<p><strong>Mapping techniques:</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Direct mapping</th>
+<th>Set-associative mapping</th>
+<th>Fully associative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rule</td>
+<td>block <em>i</em> of memory can go only into cache block <em>i</em> (mod n)</td>
+<td>each cache word holds <em>k</em> tag+data items — a "set"</td>
+<td>any block in any line</td>
+</tr>
+<tr>
+<td>Address fields</td>
+<td><strong>tag + index</strong></td>
+<td><strong>tag + index(set)</strong></td>
+<td><strong>tag + block offset</strong></td>
+</tr>
+<tr>
+<td>Comparison</td>
+<td>1 tag</td>
+<td><em>k</em> tags simultaneously (associative search)</td>
+<td>all tags</td>
+</tr>
+<tr>
+<td>Hit ratio</td>
+<td>lowest — conflict misses if two same-index/different-tag words alternate</td>
+<td>improves as <em>k</em> grows</td>
+<td>highest</td>
+</tr>
+<tr>
+<td>Hardware</td>
+<td>simplest</td>
+<td>moderate</td>
+<td>most complex &amp; costly</td>
+</tr>
+<tr>
+<td>Replacement</td>
+<td>(not needed)</td>
+<td>Random / FIFO / <strong>LRU</strong></td>
+<td>Random / FIFO / LRU</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Write policy:</strong>
+* <strong>Write-through</strong> — update main memory on <em>every</em> write (cache updated in parallel). Main memory is always consistent → important for DMA. Simple, but more memory traffic.
+* <strong>Write-back</strong> — update <em>only</em> the cache, mark the line dirty; copy to main memory only when the line is evicted. Fewer writes.</p>
+<p><strong>Valid bit:</strong> each cache word has a valid bit, cleared to 0 at initialization → forces misses until the cache fills with valid data.</p>
+<div class="mermaid">
+flowchart TD
+    A([&quot;CPU sends&lt;br/&gt;memory address&quot;]) --&gt; SPLIT[&quot;Split address into&lt;br/&gt;TAG + INDEX + BLOCK OFFSET&quot;]
+    SPLIT --&gt; SEL[&quot;Use INDEX to select&lt;br/&gt;the cache set / line&quot;]
+    SEL --&gt; CMP[&quot;Compare CPU TAG&lt;br/&gt;with stored TAG(s)&quot;]
+    CMP --&gt; HIT{&quot;Match ?&quot;}
+    HIT --&gt;|&quot;MISS&quot;| MISS[&quot;&lt;b&gt;MISS:&lt;/b&gt; read the whole BLOCK&lt;br/&gt;from MAIN MEMORY&quot;]
+    HIT --&gt;|&quot;HIT&quot;| VALID{&quot;Valid bit = 1 ?&quot;}
+    VALID --&gt;|&quot;Yes&quot;| RD[&quot;Read data directly&lt;br/&gt;from cache → &lt;b&gt;CPU&lt;/b&gt;&quot;]
+    VALID --&gt;|&quot;No&quot;| MISS
+    MISS --&gt; FILL[&quot;Copy block into cache,&lt;br/&gt;update tag,&lt;br/&gt;set valid = 1&lt;br/&gt;(evict old line using&lt;br/&gt;LRU / FIFO / RANDOM if full)&quot;]
+    FILL --&gt; RD
+    RD --&gt; DONE([&quot;Continue&quot;])
+</div>
+<blockquote>
+<p><strong>Hit ratio h</strong> = (hits / total references). Average access time = h × t_cache + (1 − h) × t_main.</p>
+</blockquote>
+<h3>8.4 Virtual Memory</h3>
+<ul>
+<li>Gives the programmer the <strong>illusion</strong> of a very large memory equal to the totality of auxiliary memory.</li>
+<li>CPU generates a <strong>virtual (logical) address</strong> → dynamically mapped to a <strong>physical address</strong> during execution.</li>
+<li>Programs are split into fixed-size <strong>pages</strong>; physical memory into <strong>blocks</strong> of the same size.</li>
+<li><strong>Page fault</strong> = the referenced page is <strong>not in main memory</strong> → OS transfers it from auxiliary memory (possibly evicting a page using a replacement algorithm).</li>
+</ul>
+<p><strong>Replacement algorithms:</strong>
+* <strong>FIFO</strong> — evict the page that has been in memory the longest (easy to implement, can thrash).
+* <strong>LRU</strong> — evict the least recently used page (implemented with an <strong>aging counter</strong> per page; highest count = least recently used). Generally better.</p>
+<div class="mermaid">
+flowchart TD
+    V([&quot;CPU generates&lt;br/&gt;VIRTUAL address&quot;]) --&gt; P{&quot;Page in&lt;br/&gt;main memory?&quot;}
+    P --&gt;|&quot;Yes&quot;| MAP[&quot;Look up page table&lt;br/&gt;→ block number&quot;]
+    MAP --&gt; PA[&quot;Physical address =&lt;br/&gt;block ∥ page offset&quot;]
+    PA --&gt; ACC[&quot;Access main memory&quot;]
+    P --&gt;|&quot;No&quot;| PF[&quot;&lt;b&gt;PAGE FAULT&lt;/b&gt;&quot;]
+    PF --&gt; OS[&quot;OS transfers the page from&lt;br/&gt;auxiliary memory → main memory&quot;]
+    OS --&gt; FULL{&quot;Main memory&lt;br/&gt;full?&quot;}
+    FULL --&gt;|&quot;Yes&quot;| REP[&quot;Replace a page using&lt;br/&gt;FIFO or LRU policy&quot;]
+    REP --&gt; LOAD[&quot;Load page, update page table&quot;]
+    FULL --&gt;|&quot;No&quot;| LOAD
+    LOAD --&gt; MAP
+    ACC --&gt; DONE([&quot;Data returned to CPU&quot;])
+</div>
+<h3>8.5 TLB — Translation Look-Aside Buffer</h3>
+<p><strong>Problem:</strong> with <strong>segmented-page</strong> mapping, one memory reference from the CPU requires <strong>three</strong> memory accesses:
+1. segment table,
+2. page table,
+3. the actual data.
+That would slow the system down badly.</p>
+<p><strong>Solution:</strong> a small, very fast <strong>associative memory (CAM)</strong> holding the most recently used (segment, page) → block entries. This is the <strong>TLB</strong>.</p>
+<div class="mermaid">
+flowchart TD
+    L[&quot;LOGICAL ADDRESS&lt;br/&gt;[ SEGMENT / PAGE / WORD ]&quot;] --&gt; TLB[&quot;&lt;b&gt;TLB&lt;/b&gt;&lt;br/&gt;associative memory&lt;br/&gt;(seg, page) → block&quot;]
+    TLB --&gt; M{&quot;TLB&lt;br/&gt;lookup&lt;br/&gt;HIT ?&quot;}
+
+    M --&gt;|&quot;HIT&quot;| PA1[&quot;block from TLB&lt;br/&gt;Physical addr = block ∥ WORD&lt;br/&gt;(only associative-memory delay)&quot;]
+    M --&gt;|&quot;MISS&quot;| ST[&quot;1. SEGMENT TABLE&lt;br/&gt;→ page-table base address&quot;]
+    ST --&gt; PT[&quot;2. page-table base + PAGE&lt;br/&gt;→ page-table entry&quot;]
+    PT --&gt; BL[&quot;3. entry → BLOCK number&lt;br/&gt;in physical memory&quot;]
+    BL --&gt; PA2[&quot;Physical addr = block ∥ WORD&quot;]
+    BL --&gt; WRITE[&quot;Write the new&lt;br/&gt;(seg, page) → block entry&lt;br/&gt;into the TLB&quot;]
+    WRITE --&gt; PA2
+    PA1 --&gt; MEM[&quot;Access MAIN MEMORY&quot;]
+    PA2 --&gt; MEM
+    MEM --&gt; OUT([&quot;Data to CPU&quot;])
+</div>
+<p><strong>Numerical example (Mano Fig. 12-22/12-24):</strong>
+* Logical address 20 bits = <strong>4-bit segment</strong> (16 segments) + <strong>8-bit page</strong> (256 pages) + <strong>8-bit word</strong> (256 words/page).
+* Physical address 20 bits = <strong>12-bit block</strong> (4096 blocks) + <strong>8-bit word</strong>.
+* Address <code>6027E</code> = segment 6, page 2, word 7E. Segment 6's page table base = 35 → entry 35+2 = <strong>37</strong> → block <strong>019</strong> → physical address <strong>0197E</strong>.</p>
+<p><strong>Memory protection</strong> uses a <strong>descriptor</strong> in the segment table: <code>base address | length | protection</code>. Access rights: read/write, read-only, execute-only, system-only. A reference outside the length → size-violation fault.</p>
+<h2>---</h2>
+<h1>UNIT 2</h1>
+<hr>
+<h2>1. Basic Computer Organization and Design</h2>
+<p><strong>Hardware of the Basic Computer (Mano, Sec. 5-9):</strong>
+* Memory unit — <strong>4096 words × 16 bits</strong>
+* <strong>9 registers</strong> — AR, PC, DR, AC, IR, TR, OUTR, INPR, SC
+* <strong>7 flip-flops</strong> — I, S, E, R, IEN, FGI, FGO
+* <strong>2 decoders</strong> — 3×8 operation decoder (D₀…D₇), 4×16 timing decoder (T₀…T₁₅)
+* 16-bit <strong>common bus</strong>
+* Control logic gates + adder/logic circuit feeding AC</p>
+<h3>1.1 General Register Organization / Computer Registers</h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Bits</th>
+<th>Name</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DR</strong></td>
+<td>16</td>
+<td>Data register</td>
+<td>Holds memory operand</td>
+</tr>
+<tr>
+<td><strong>AR</strong></td>
+<td>12</td>
+<td>Address register</td>
+<td>Holds address for memory</td>
+</tr>
+<tr>
+<td><strong>AC</strong></td>
+<td>16</td>
+<td>Accumulator</td>
+<td>General-purpose processor register</td>
+</tr>
+<tr>
+<td><strong>IR</strong></td>
+<td>16</td>
+<td>Instruction register</td>
+<td>Holds instruction code</td>
+</tr>
+<tr>
+<td><strong>PC</strong></td>
+<td>12</td>
+<td>Program counter</td>
+<td>Holds address of <strong>next</strong> instruction</td>
+</tr>
+<tr>
+<td><strong>TR</strong></td>
+<td>16</td>
+<td>Temporary register</td>
+<td>Holds temporary data</td>
+</tr>
+<tr>
+<td><strong>INPR</strong></td>
+<td>8</td>
+<td>Input register</td>
+<td>Holds input character</td>
+</tr>
+<tr>
+<td><strong>OUTR</strong></td>
+<td>8</td>
+<td>Output register</td>
+<td>Holds output character</td>
+</tr>
+<tr>
+<td><strong>SC</strong></td>
+<td>4</td>
+<td>Sequence counter</td>
+<td>Generates timing signals T₀…T₁₅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Flip-flops:</strong> <code>E</code> (extended AC / end carry), <code>I</code> (indirect bit), <code>S</code> (start/stop), <code>R</code> (interrupt request), <code>IEN</code> (interrupt enable), <code>FGI</code> (input flag), <code>FGO</code> (output flag).</p>
+<blockquote>
+<p>PC is <strong>auto-incremented</strong> during fetch: <code>T₀: AR ← PC</code> then <code>T₁: IR ← M[AR], PC ← PC + 1</code>.</p>
+</blockquote>
+<h3>1.2 Common Bus System</h3>
+<p>Direct point-to-point wiring between every pair of registers would need an enormous number of wires → use a <strong>single common bus</strong>.</p>
+<ul>
+<li>Bus source selected by <strong>S₂S₁S₀</strong> (3 bits → 8 sources: DR=3, AR=0, PC=2, AC=4, IR=5, TR=6, INPR=?, Memory=7).</li>
+<li>The <strong>destination</strong> register is selected by enabling its <strong>LD</strong> (load) input; it captures the bus at the next clock transition.</li>
+<li>Registers have control inputs <strong>LD, INR, CLR</strong>.</li>
+<li><strong>Memory address always comes from AR</strong> → no separate address bus is needed.</li>
+<li>Two microoperations can happen in the <em>same</em> clock cycle, e.g. <code>DR ← AC</code> <strong>and</strong> <code>AC ← DR</code>.</li>
+</ul>
+<div class="mermaid">
+flowchart LR
+    subgraph SRC[&quot;BUS SOURCES (selected by S2S1S0)&quot;]
+        DR[&quot;DR&quot;]
+        AR[&quot;AR&quot;]
+        PC[&quot;PC&quot;]
+        AC[&quot;AC&quot;]
+        IR[&quot;IR&quot;]
+        TR[&quot;TR&quot;]
+        MEM[&quot;Memory out&quot;]
+    end
+    BUS([&quot;16-bit COMMON BUS&quot;])
+    DR --&gt; BUS
+    AR --&gt; BUS
+    PC --&gt; BUS
+    AC --&gt; BUS
+    IR --&gt; BUS
+    TR --&gt; BUS
+    MEM --&gt; BUS
+    BUS --&gt; D1[&quot;AR / PC / DR / AC / IR / TR&lt;br/&gt;(LD enabled by control)&quot;]
+    BUS --&gt; D2[&quot;Memory data in&lt;br/&gt;(write enabled)&quot;]
+    ALU[&quot;Adder &amp;amp; Logic Circuit&lt;br/&gt;AC ← AC op DR&lt;br/&gt;E ← carry&quot;] --&gt; AC
+    DR --&gt; ALU
+    AC --&gt; ALU
+</div>
+<h3>1.3 Computer Instructions — Formats</h3>
+<p>16-bit instruction word. Opcode in <strong>bits 12–14</strong>, mode bit <strong>I</strong> in <strong>bit 15</strong>, address in <strong>bits 0–11</strong>.</p>
+<div class="mermaid">
+flowchart TD
+    IN[&quot;16-bit instruction&quot;] --&gt; Q1{&quot;Bits 12-14 = 111 ?&quot;}
+    Q1 --&gt;|&quot;No (000–110)&quot;| MR[&quot;&lt;b&gt;MEMORY-REFERENCE&lt;/b&gt;&lt;br/&gt;opcode 3b · I bit 1b · address 12b&lt;br/&gt;AND ADD LDA STA BUN BSA ISZ&quot;]
+    Q1 --&gt;|&quot;Yes&quot;| Q2{&quot;Bit 15 ?&quot;}
+    Q2 --&gt;|&quot;0&quot;| RR[&quot;&lt;b&gt;REGISTER-REFERENCE&lt;/b&gt;&lt;br/&gt;D₇ = 1, I = 0&lt;br/&gt;12-bit code selects the op:&lt;br/&gt;CLA CLE CMA CME CIR CIL INC&lt;br/&gt;SPA SNA SZA SZE HLT&quot;]
+    Q2 --&gt;|&quot;1&quot;| IO[&quot;&lt;b&gt;INPUT-OUTPUT&lt;/b&gt;&lt;br/&gt;D₇ = 1, I = 1&lt;br/&gt;INP OUT SKI SKO ION IOF&quot;]
+</div>
+<p><strong>Total = 25 instructions</strong> (7 memory + 12 register + 6 I/O).</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Hex (I=0 / I=1)</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AND</td>
+<td>0xxx / 8xxx</td>
+<td>AC ← AC ∧ M[EA]</td>
+</tr>
+<tr>
+<td>ADD</td>
+<td>1xxx / 9xxx</td>
+<td>AC ← AC + M[EA], E ← Cout</td>
+</tr>
+<tr>
+<td>LDA</td>
+<td>2xxx / Axxx</td>
+<td>AC ← M[EA]</td>
+</tr>
+<tr>
+<td>STA</td>
+<td>3xxx / Bxxx</td>
+<td>M[EA] ← AC</td>
+</tr>
+<tr>
+<td>BUN</td>
+<td>4xxx / Cxxx</td>
+<td>PC ← EA (branch)</td>
+</tr>
+<tr>
+<td>BSA</td>
+<td>5xxx / Dxxx</td>
+<td>M[EA] ← PC, PC ← EA+1 (subroutine call)</td>
+</tr>
+<tr>
+<td>ISZ</td>
+<td>6xxx / Exxx</td>
+<td>M[EA] ← M[EA]+1, if =0 then PC ← PC+1</td>
+</tr>
+<tr>
+<td>CLA/CLE/CMA/CME/CIR/CIL/INC</td>
+<td>7800/7400/7200/7100/7080/7040/7020</td>
+<td>clear/complement/circulate/increment AC or E</td>
+</tr>
+<tr>
+<td>SPA/SNA/SZA/SZE</td>
+<td>7010/7008/7004/7002</td>
+<td>skip next instruction on condition</td>
+</tr>
+<tr>
+<td>HLT</td>
+<td>7001</td>
+<td>halt (clears start/stop flip-flop S)</td>
+</tr>
+<tr>
+<td>INP/OUT</td>
+<td>F800 / F400</td>
+<td>AC(0-7) ← INPR / OUTR ← AC(0-7)</td>
+</tr>
+<tr>
+<td>SKI/SKO</td>
+<td>F200 / F100</td>
+<td>skip on input/output flag</td>
+</tr>
+<tr>
+<td>ION/IOF</td>
+<td>F080 / F040</td>
+<td>IEN ← 1 / IEN ← 0</td>
+</tr>
+</tbody>
+</table>
+<h3>1.4 Timing and Control</h3>
+<div class="mermaid">
+flowchart LR
+    IR[&quot;INSTRUCTION REGISTER&lt;br/&gt;bit15 → I flip-flop&lt;br/&gt;bits14-12 → decoder&lt;br/&gt;bits11-0 → control logic&quot;] --&gt; D[&quot;3 × 8 OPERATION DECODER&lt;br/&gt;D₀ … D₇&quot;]
+    IR --&gt; CL[&quot;CONTROL LOGIC GATES&quot;]
+    SC[&quot;SEQUENCE COUNTER SC&lt;br/&gt;(4-bit, counts 0→15,&lt;br/&gt;CLR resets to 0)&quot;] --&gt; T[&quot;4 × 16 TIMING DECODER&lt;br/&gt;T₀ … T₁₅&quot;]
+    T --&gt; CL
+    D --&gt; CL
+    CL --&gt; OUTS[&quot;CONTROL SIGNALS&lt;br/&gt;• bus selection S₂S₁S₀&lt;br/&gt;• register LD / INR / CLR&lt;br/&gt;• memory Read / Write&lt;br/&gt;• adder &amp;amp; logic microops&quot;]
+</div>
+<ul>
+<li>The control function is a <strong>product of a decoded opcode and a timing signal</strong>, e.g. <code>D₃T₄ : SC ← 0</code>.</li>
+<li>SC is incremented every positive clock edge unless cleared → sequence T₀, T₁, T₂, … ; clearing SC restarts at T₀.</li>
+<li>Memory cycle is assumed &lt; clock cycle (otherwise <strong>wait states</strong> are needed).</li>
+</ul>
+<p><strong>Two major control organizations:</strong>
+1. <strong>Hardwired control</strong> — logic gates, flip-flops, decoders. Fast, but changing the design means re-wiring.
+2. <strong>Microprogrammed control</strong> — control signals stored in a <strong>control memory (ROM)</strong>. Changing the design = reprogramming, no rewiring.</p>
+<h3>1.5 Instruction Cycle Flowchart (Fig. 5-9 / 5-15)</h3>
+<p><strong>Phases:</strong> (1) fetch (2) decode (3) read effective address if indirect (4) execute.</p>
+<div class="mermaid">
+flowchart TD
+    ST([&quot;START&quot;]) --&gt; CLR[&quot;SC ← 0, IEN ← 0, R ← 0&quot;]
+    CLR --&gt; FETCH{&quot;&lt;b&gt;R ?&lt;/b&gt;&quot;}
+
+    FETCH --&gt;|&quot;R = 0&quot;| T0[&quot;&lt;b&gt;T₀&lt;/b&gt; : AR ← PC&quot;]
+    FETCH --&gt;|&quot;R = 1&quot;| IC[&quot;&lt;b&gt;INTERRUPT CYCLE&lt;/b&gt;   (R = 1)&lt;br/&gt;T₀: AR ← 0, TR ← PC&lt;br/&gt;T₁: M[AR] ← TR, PC ← 0&lt;br/&gt;T₂: PC ← PC+1, IEN ← 0, R ← 0, SC ← 0&quot;]
+    IC --&gt; T0
+
+    T0 --&gt; T1[&quot;&lt;b&gt;T₁&lt;/b&gt; : IR ← M[AR], PC ← PC + 1&quot;]
+    T1 --&gt; T2[&quot;&lt;b&gt;T₂&lt;/b&gt; : Decode IR(12-14) → D₀…D₇&lt;br/&gt;AR ← IR(0-11),  I ← IR(15)&quot;]
+    T2 --&gt; T3{&quot;&lt;b&gt;T₃&lt;/b&gt; : instruction type ?&quot;}
+
+    T3 --&gt;|&quot;D₇ = 1, I = 0&quot;| REG[&quot;Execute REGISTER-REFERENCE&lt;br/&gt;at T₃ (control function r = D₇I′T₃)&lt;br/&gt;e.g. CLA, CMA, INC, SPA, HLT&quot;]
+    T3 --&gt;|&quot;D₇ = 1, I = 1&quot;| IOP[&quot;Execute I/O instruction&lt;br/&gt;at T₃ (control function p = D₇IT₃)&lt;br/&gt;e.g. INP, OUT, ION, IOF&quot;]
+    T3 --&gt;|&quot;D₇ = 0, I = 1&quot;| IND[&quot;&lt;b&gt;INDIRECT PHASE&lt;/b&gt; — T₃: AR ← M[AR]&quot;]
+    T3 --&gt;|&quot;D₇ = 0, I = 0&quot;| MEMR[&quot;Direct address already in AR&lt;br/&gt;→ continue at T₄&quot;]
+
+    IND --&gt; MEMR
+    MEMR --&gt; EXEC[&quot;Execute MEMORY-REFERENCE&lt;br/&gt;instruction at T₄, T₅, T₆&lt;br/&gt;(AND, ADD, LDA, STA, BUN, BSA, ISZ)&quot;]
+
+    REG --&gt; SETR
+    IOP --&gt; SETR
+    EXEC --&gt; SETR{&quot;R = 1 ?&quot;}
+    SETR --&gt;|&quot;Yes&quot;| IC
+    SETR --&gt;|&quot;No&quot;| T0
+</div>
+<h3>1.6 Execution of the 7 Memory-Reference Instructions (Fig. 5-11)</h3>
+<div class="mermaid">
+flowchart LR
+    ROOT[&quot;MEMORY-REFERENCE&lt;br/&gt;instruction executed at T₄ / T₅ / T₆&quot;] --&gt; A
+    ROOT --&gt; B
+    ROOT --&gt; C
+    ROOT --&gt; D
+    ROOT --&gt; E
+    ROOT --&gt; F
+    ROOT --&gt; G
+
+    A[&quot;&lt;b&gt;AND&lt;/b&gt; (D₀)&lt;br/&gt;T₄: DR ← M[AR]&lt;br/&gt;T₅: AC ← AC ∧ DR, SC ← 0&quot;]
+    B[&quot;&lt;b&gt;ADD&lt;/b&gt; (D₁)&lt;br/&gt;T₄: DR ← M[AR]&lt;br/&gt;T₅: AC ← AC + DR, E ← Cout, SC ← 0&quot;]
+    C[&quot;&lt;b&gt;LDA&lt;/b&gt; (D₂)&lt;br/&gt;T₄: DR ← M[AR]&lt;br/&gt;T₅: AC ← DR, SC ← 0&quot;]
+    D[&quot;&lt;b&gt;STA&lt;/b&gt; (D₃)&lt;br/&gt;T₄: M[AR] ← AC, SC ← 0&quot;]
+    E[&quot;&lt;b&gt;BUN&lt;/b&gt; (D₄)&lt;br/&gt;T₄: PC ← AR, SC ← 0&quot;]
+    F[&quot;&lt;b&gt;BSA&lt;/b&gt; (D₅) — subroutine CALL&lt;br/&gt;T₄: M[AR] ← PC, AR ← AR + 1&lt;br/&gt;T₅: PC ← AR, SC ← 0&quot;]
+    G[&quot;&lt;b&gt;ISZ&lt;/b&gt; (D₆)&lt;br/&gt;T₄: DR ← M[AR]&lt;br/&gt;T₅: DR ← DR + 1&lt;br/&gt;T₆: M[AR] ← DR,&lt;br/&gt;if (DR = 0) then PC ← PC + 1,&lt;br/&gt;SC ← 0&quot;]
+
+    A --&gt; H([&quot;Next instruction&quot;])
+    B --&gt; H
+    C --&gt; H
+    D --&gt; H
+    E --&gt; H
+    F --&gt; H
+    G --&gt; H
+</div>
+<p><strong>BSA = subroutine call</strong>, and an <strong>indirect BUN with address 0</strong> at the end of the subroutine = <strong>return</strong>.</p>
+<h2>---</h2>
+<h2>2. Input, Output and Interrupt</h2>
+<h3>2.1 I/O Configuration and Instructions</h3>
+<ul>
+<li><code>INPR</code> (8 bits) receives a character from the keyboard through a <strong>transmitter interface</strong>; <code>OUTR</code> (8 bits) sends to the printer through a <strong>receiver interface</strong>.</li>
+<li><strong>Flags synchronize the speed mismatch:</strong></li>
+<li><code>FGI</code> (input flag) — set to 1 when a new character is in INPR; cleared to 0 when the CPU accepts it.</li>
+<li><code>FGO</code> (output flag) — set to 1 when the output device is ready; cleared when the CPU loads OUTR.</li>
+<li><strong>I/O instructions:</strong> <code>INP</code>, <code>OUT</code>, <code>SKI</code>, <code>SKO</code>, <code>ION</code>, <code>IOF</code> (control function <code>p = D₇IT₃</code>).</li>
+</ul>
+<h3>2.2 Programmed Control Transfer vs Interrupt</h3>
+<div class="mermaid">
+flowchart TD
+    subgraph P[&quot;PROGRAMMED (polling)&quot;]
+        P1[&quot;Loop: test the flag&quot;] --&gt; P2{&quot;Flag set ?&quot;}
+        P2 --&gt;|&quot;No&quot;| P1
+        P2 --&gt;|&quot;Yes&quot;| P3[&quot;Do the transfer&quot;]
+    end
+    subgraph I[&quot;INTERRUPT-DRIVEN&quot;]
+        I1[&quot;CPU runs the main program&quot;] --&gt; I2[&quot;Device raises interrupt&lt;br/&gt;when it is ready&quot;]
+        I2 --&gt; I3[&quot;CPU finishes current instruction,&lt;br/&gt;saves return address&quot;]
+        I3 --&gt; I4[&quot;Branches to I/O SERVICE ROUTINE&quot;]
+        I4 --&gt; I5[&quot;Do the transfer&quot;]
+        I5 --&gt; I6[&quot;Return to main program&quot;]
+    end
+</div>
+<blockquote>
+<p><strong>Why polling is wasteful:</strong> at 1 µs per instruction cycle and a 10 char/s device (1 char per 100,000 µs), the CPU would check the flag <strong>50,000 times</strong> between transfers.</p>
+</blockquote>
+<p><strong>Interrupt machinery:</strong> <code>IEN</code> (interrupt enable flip-flop) set by <code>ION</code>, cleared by <code>IOF</code>. An interrupt flip-flop <code>R</code> is set when <code>IEN · (FGI + FGO) = 1</code>.</p>
+<h3>2.3 Interrupt Cycle Flowchart (Fig. 5-13 / 5-15)</h3>
+<p>The interrupt cycle is a <strong>hardware implementation of "branch and save return address."</strong></p>
+<div class="mermaid">
+flowchart TD
+    ST([&quot;Start of computer operation&quot;]) --&gt; ICY{&quot;&lt;b&gt;Interrupt Cycle&lt;/b&gt; entered&lt;br/&gt;because R = 1&quot;}
+    ICY --&gt; S1[&quot;&lt;b&gt;T₀&lt;/b&gt; : AR ← 0&lt;br/&gt;TR ← PC   (save return address)&quot;]
+    S1 --&gt; S2[&quot;&lt;b&gt;T₁&lt;/b&gt; : M[AR] ← TR&lt;br/&gt;i.e. &lt;b&gt;M[0] ← PC&lt;/b&gt;&lt;br/&gt;PC ← 0&quot;]
+    S2 --&gt; S3[&quot;&lt;b&gt;T₂&lt;/b&gt; : PC ← PC + 1  → PC = 1&lt;br/&gt;IEN ← 0,  R ← 0,  SC ← 0&quot;]
+    S3 --&gt; FETCH[&quot;Next instruction cycle&lt;br/&gt;fetches the instruction at&lt;br/&gt;address &lt;b&gt;1&lt;/b&gt;&quot;]
+    FETCH --&gt; BUN[&quot;Address 1 holds &lt;b&gt;BUN 1120&lt;/b&gt;&lt;br/&gt;→ jumps to the I/O service routine&lt;br/&gt;at 1120&quot;]
+    BUN --&gt; SERV[&quot;I/O service routine:&lt;br/&gt;• check FGI / FGO&lt;br/&gt;• transfer the character&lt;br/&gt;• execute ION to re-enable interrupts&quot;]
+    SERV --&gt; RET[&quot;End of routine: &lt;b&gt;BUN 0&lt;/b&gt; (indirect)&lt;br/&gt;→ indirect phase reads the return&lt;br/&gt;address stored at location 0&quot;]
+    RET --&gt; BACK([&quot;Resume the interrupted&lt;br/&gt;program&quot;])
+</div>
+<p><strong>Setting R:</strong> <code>T₀'T₁'T₂'(IEN)(FGI + FGO) : R ← 1</code> — can happen at any time <em>except</em> during T₀, T₁, T₂.
+<strong>Fetch phase is modified</strong> to <code>R'T₀, R'T₁, R'T₂</code> so that control goes either to the <em>instruction</em> cycle (R=0) or the <em>interrupt</em> cycle (R=1).</p>
+<h3>2.4 Priority Interrupt</h3>
+<p>A <strong>priority interrupt</strong> establishes which of several simultaneous requests is serviced first, and which requests may interrupt while another is being serviced.</p>
+<ul>
+<li>High-speed devices (disks) → <strong>high</strong> priority; slow devices (keyboards) → <strong>low</strong> priority.</li>
+<li><strong>Software polling:</strong> one common branch address; the service program tests sources in sequence — order of testing = priority. <em>Disadvantage:</em> with many interrupts, polling time can exceed the available service time.</li>
+<li><strong>Hardware priority-interrupt unit:</strong> decides in hardware, and gives each source its own <strong>interrupt vector</strong> → no polling.</li>
+</ul>
+<div class="mermaid">
+flowchart LR
+    subgraph DAISY[&quot;DAISY-CHAIN (SERIAL) PRIORITY&quot;]
+        CPU[&quot;CPU&lt;br/&gt;raises INTERRUPT ACKNOWLEDGE&quot;]
+        D1[&quot;Device 1&lt;br/&gt;(highest priority)&lt;br/&gt;PI → PO&quot;]
+        D2[&quot;Device 2&lt;br/&gt;PI → PO&quot;]
+        D3[&quot;Device 3&lt;br/&gt;PI → PO&quot;]
+        CPU --&gt;|&quot;acknowledge line&quot;| D1
+        D1 --&gt;|&quot;PO = 1 passes it on&lt;br/&gt;PO = 0 blocks it&quot;| D2
+        D2 --&gt; D3
+        D3 -.-&gt;|&quot;VAD on data bus&quot;| CPU
+        D1 -.-&gt;|&quot;VAD on data bus&quot;| CPU
+        D2 -.-&gt;|&quot;VAD on data bus&quot;| CPU
+    end
+</div>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Daisy chain (serial)</th>
+<th>Parallel priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hardware</td>
+<td>Simple wiring, one shared request line (wired-OR)</td>
+<td>Interrupt register + mask register + priority encoder</td>
+</tr>
+<tr>
+<td>Priority rule</td>
+<td><strong>Nearest to the CPU wins</strong> — first device with PI=1 and RF=1 puts PO=0 and drives its vector</td>
+<td>Bit position in the interrupt register determines priority</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Slower (signal propagates down the chain)</td>
+<td>Faster — all decided in parallel</td>
+</tr>
+<tr>
+<td>Masking</td>
+<td>Hard</td>
+<td>Mask register can disable individual sources in software</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule:</strong> a device with <code>PI = 1</code> and <code>PO = 0</code> is the highest-priority device currently requesting an interrupt; it places its <strong>VAD</strong> (vector address) on the data bus.</p>
+<h2>---</h2>
+<h2>3. Design Drivers — Common Case and Amdahl's Law</h2>
+<h3>3.1 "Make the Common Case Fast"</h3>
+<p>The most important quantitative <strong>design principle</strong>: since not all cases occur equally often, optimise the path that happens <strong>most frequently</strong>, even if it makes the rare cases slower.</p>
+<p><strong>Classic example — the load/store path:</strong>
+* Most instructions are <em>register–register</em> and most memory references <strong>hit in the cache</strong> → build a fast single-cycle register path and a fast cache, and accept that a cache <strong>miss</strong> takes many cycles.
+* Other examples: short instructions are more common than long ones (variable-length formats still let the common short case decode fast); simple addressing modes are more common than complex ones.</p>
+<p>Other standard design drivers alongside it:
+* <strong>Simplicity favours regularity</strong> (fixed instruction formats → easy to decode).
+* <strong>Good design demands good compromise</strong> (e.g. memory capacity vs speed vs cost → hierarchy).
+* <strong>Quantify the benefit before you spend hardware</strong> → Amdahl's Law.</p>
+<h3>3.2 Amdahl's Law</h3>
+<blockquote>
+<p><strong>Speedup = 1 / [ (1 − F) + F / S ]</strong></p>
+</blockquote>
+<p>where
+* <strong>F</strong> = fraction of the total execution time that is <em>improved</em> (the enhanced part),
+* <strong>S</strong> = speed-up factor applied to that part,
+* <strong>(1 − F)</strong> = the fraction that is <em>not</em> improved (the "remainder").</p>
+<p><strong>Limit:</strong> as <strong>S → ∞</strong>, <strong>Speedup → 1 / (1 − F)</strong> — the improvement to the un-enhanced part puts a <strong>hard ceiling</strong> on the total gain.</p>
+<p><strong>Corollary:</strong> the greatest benefit comes from improving the part that consumes the <strong>most time</strong> — i.e. <em>"make the common case fast."</em></p>
+<pre><code>Worked example:
+  40% of the program can be sped up by 10×  →  F = 0.40, S = 10
+  Speedup = 1 / [ (1 − 0.40) + 0.40/10 ]
+          = 1 / [ 0.60 + 0.04 ]
+          = 1 / 0.64
+          = 1.5625   → only 1.56× faster
+
+  Even with an infinitely fast accelerator (S → ∞):
+  Speedupmax = 1 / (1 − 0.40) = 1 / 0.60 = 1.67×
+
+  If instead you speed up the 60% part by 10×:
+  Speedup = 1 / [0.40 + 0.60/10] = 1/0.46 = 2.17×   ← much better return
+</code></pre>
+<div class="mermaid">
+flowchart TD
+    A[&quot;Identify the workload&quot;] --&gt; B[&quot;Measure time split:&lt;br/&gt;fraction F is the target,&lt;br/&gt;(1 − F) is the rest&quot;]
+    B --&gt; C{&quot;Speed up the target&lt;br/&gt;by factor S&quot;}
+    C --&gt; D[&quot;New time = (1 − F) + F/S&lt;br/&gt;of the original&quot;]
+    D --&gt; E[&quot;&lt;b&gt;Speedup = 1 / [(1 − F) + F/S]&lt;/b&gt;&quot;]
+    E --&gt; F{&quot;Is F large ?&quot;}
+    F --&gt;|&quot;No — F small&quot;| G[&quot;Little overall gain&lt;br/&gt;(Amdahl&#x27;s ceiling 1/(1−F))&lt;br/&gt;→ spend effort elsewhere&quot;]
+    F --&gt;|&quot;Yes — F large&quot;| H[&quot;Big gain —&lt;br/&gt;&lt;b&gt;the common case was&lt;br/&gt;the right target&lt;/b&gt;&quot;]
+</div>
+<h2>---</h2>
+<h2>4. Microprogrammed Control Organization</h2>
+<h3>4.1 Terminology</h3>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Microoperation</strong></td>
+<td>Smallest hardware action (e.g. <code>AC ← AC + DR</code>), one clock cycle</td>
+</tr>
+<tr>
+<td><strong>Control word</strong></td>
+<td>String of 1s and 0s giving the control variables at a given time</td>
+</tr>
+<tr>
+<td><strong>Microinstruction</strong></td>
+<td>One word of control memory — specifies <strong>one or more</strong> microoperations + next-address info</td>
+</tr>
+<tr>
+<td><strong>Microprogram</strong></td>
+<td>A <strong>sequence</strong> of microinstructions (= a routine)</td>
+</tr>
+<tr>
+<td><strong>Control memory</strong></td>
+<td>The memory (usually <strong>ROM</strong>) inside the control unit holding the microprogram</td>
+</tr>
+<tr>
+<td><strong>Control address register (CAR)</strong></td>
+<td>Holds the address of the current microinstruction</td>
+</tr>
+<tr>
+<td><strong>Control data register / pipeline register</strong></td>
+<td>Holds the microinstruction read from control memory while the next one is fetched (needs a <strong>two-phase clock</strong>)</td>
+</tr>
+<tr>
+<td><strong>Microprogram sequencer</strong></td>
+<td>The "next address generator" — decides the next CAR value</td>
+</tr>
+<tr>
+<td><strong>Mapping</strong></td>
+<td>Rule that transforms the machine instruction <strong>opcode</strong> into a control-memory address</td>
+</tr>
+<tr>
+<td><strong>Dynamic microprogramming</strong></td>
+<td>Microprogram loaded from disk into <strong>writable</strong> control memory (RAM)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Two memories:</strong> <strong>main memory</strong> (user's programs &amp; data, changes) and <strong>control memory</strong> (fixed microprogram, not visible to the user).</p>
+<h3>4.2 Organization of a Microprogrammed Control Unit (Fig. 7-1)</h3>
+<div class="mermaid">
+flowchart TD
+    EXT[&quot;External input&lt;br/&gt;(status conditions)&quot;] --&gt; NAG[&quot;&lt;b&gt;NEXT ADDRESS&lt;br/&gt;GENERATOR&lt;/b&gt;&lt;br/&gt;= microprogram SEQUENCER&quot;]
+    AD[&quot;AD field of the&lt;br/&gt;microinstruction&quot;] --&gt; NAG
+    NAG --&gt; CAR[&quot;CONTROL ADDRESS&lt;br/&gt;REGISTER (CAR)&quot;]
+    CAR --&gt; CM[&quot;&lt;b&gt;CONTROL MEMORY&lt;/b&gt;&lt;br/&gt;ROM, holds the microprogram&quot;]
+    CM --&gt;|&quot;&lt;b&gt;control word&lt;/b&gt;&quot;| CDR[&quot;CONTROL DATA REGISTER&lt;br/&gt;(pipeline register)&quot;]
+    CM --&gt;|&quot;next-address information&quot;| NAG
+    CDR --&gt; MW[&quot;&lt;b&gt;Micro-operations&lt;/b&gt;&lt;br/&gt;in the data processor&lt;br/&gt;(registers, ALU, bus, memory)&quot;]
+    MW -.-&gt;|&quot;status bits&quot;| EXT
+</div>
+<p><strong>Advantages of microprogrammed control</strong>
+* No re-wiring to change the design — just a different microprogram in control memory.
+* Easy to implement a <strong>complex instruction set</strong>; each machine instruction = its own micro-routine that fetches, evaluates the effective address, executes, and returns to fetch.
+* ROM is <strong>cheaper and faster</strong> than RAM and prevents the user from altering the architecture.
+* <strong>RISC</strong> processors generally use <strong>hardwired</strong> control instead.</p>
+<h3>4.3 Address Sequencing (Fig. 7-2)</h3>
+<p>The control must be able to do <strong>four things</strong>:</p>
+<ol>
+<li><strong>Increment</strong> the control address register (sequencing within a routine).</li>
+<li><strong>Unconditional or conditional branch</strong> (conditioned on a status bit).</li>
+<li><strong>Mapping</strong> — transform the instruction opcode into a control-memory address.</li>
+<li><strong>Subroutine call and return</strong> (needs an external register <strong>SBR</strong> — ROM cannot be written).</li>
+</ol>
+<div class="mermaid">
+flowchart TD
+    AD[&quot;Branch address field&lt;br/&gt;of the microinstruction&quot;] --&gt; MUX[&quot;MULTIPLEXER&lt;br/&gt;(select source of next CAR value)&quot;]
+    INC[&quot;INCREMENTER&lt;br/&gt;CAR ← CAR + 1&quot;] --&gt; MUX
+    MAP[&quot;MAPPING LOGIC&lt;br/&gt;external address from the&lt;br/&gt;instruction opcode&quot;] --&gt; MUX
+    SBR[&quot;SUBROUTINE REGISTER&lt;br/&gt;(return address)&quot;] --&gt; MUX
+    STAT[&quot;Status bits&lt;br/&gt;(carry, sign, zero, mode, I/O flags)&lt;br/&gt;selected by the CD field&quot;] --&gt; BRLOG[&quot;BRANCH LOGIC&quot;]
+    BRLOG --&gt;|&quot;test result T&quot;| MUX
+    MUX --&gt; CAR[&quot;CONTROL ADDRESS REGISTER&lt;br/&gt;(CAR)&quot;]
+    CAR --&gt; CM[&quot;CONTROL MEMORY&quot;]
+    CM --&gt; OUT[&quot;&lt;b&gt;MICRO-OPERATIONS&lt;/b&gt;&lt;br/&gt;executed in the data processor&quot;]
+    CM -.-&gt;|&quot;address field, status select,&lt;br/&gt;branch field&quot;| AD
+</div>
+<ul>
+<li><strong>Conditional branch:</strong> 3 bits select one of 8 status conditions; if the selected status bit = 1 → load the branch address, else → increment CAR.</li>
+<li><strong>Unconditional branch:</strong> fix one status-bit input permanently at 1.</li>
+<li><strong>Mapping:</strong> <code>CAR(2-5) ← DR(11-14)</code>, <code>CAR(0,1,6) ← 0</code> — the 4 opcode bits become the middle of the 7-bit control address.</li>
+</ul>
+<h3>4.4 Microinstruction Format (Fig. 7-4 — the example machine)</h3>
+<p>20-bit microinstruction in a <strong>128-word × 20-bit</strong> control memory:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Bits</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F1</strong></td>
+<td>3</td>
+<td>Microoperation field 1 (AR/AC/PC operations)</td>
+</tr>
+<tr>
+<td><strong>F2</strong></td>
+<td>3</td>
+<td>Microoperation field 2 (DR operations)</td>
+</tr>
+<tr>
+<td><strong>F3</strong></td>
+<td>3</td>
+<td>Microoperation field 3 (misc. operations)</td>
+</tr>
+<tr>
+<td><strong>CD</strong></td>
+<td>2</td>
+<td>Condition field — selects the status bit (<code>U</code>=always 1, <code>I</code>=DR(15), <code>S</code>=AC(15), <code>Z</code>=AC=0)</td>
+</tr>
+<tr>
+<td><strong>BR</strong></td>
+<td>2</td>
+<td>Branch field — <code>00 JMP</code>, <code>01 CALL</code>, <code>10 RET</code>, <code>11 MAP</code></td>
+</tr>
+<tr>
+<td><strong>AD</strong></td>
+<td>7</td>
+<td>Address field (branch target / NEXT / empty)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Symbolic assembly line:</strong> <code>LABEL: microoperations, CD, BR, AD</code>
+<code>ORG</code> sets the origin. Example fetch routine:</p>
+<pre><code>        ORG 64
+FETCH:  PCTAR            U   JMP  NEXT     ; AR ← PC
+        READ, INCPC      U   JMP  NEXT     ; DR ← M[AR], PC ← PC + 1
+        DRTAR            U   MAP           ; AR ← DR(0-10); CAR ← mapped opcode
+</code></pre>
+<p><strong>BR field functions:</strong></p>
+<table>
+<thead>
+<tr>
+<th>BR</th>
+<th>Symbol</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td><strong>JMP</strong></td>
+<td>CAR ← AD if condition = 1, else CAR ← CAR + 1</td>
+</tr>
+<tr>
+<td>01</td>
+<td><strong>CALL</strong></td>
+<td>CAR ← AD, SBR ← CAR + 1, if condition = 1</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>RET</strong></td>
+<td>CAR ← SBR (return from subroutine)</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>MAP</strong></td>
+<td>CAR(2-5) ← DR(11-14), CAR(0,1,6) ← 0</td>
+</tr>
+</tbody>
+</table>
+<h3>4.5 Horizontal vs Vertical Microprogramming</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th><strong>Horizontal microprogramming</strong></th>
+<th><strong>Vertical microprogramming</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Microinstruction width</td>
+<td><strong>Wide</strong> — one bit (or a small field) per control signal</td>
+<td><strong>Narrow</strong> — fields are <strong>encoded/decoded</strong></td>
+</tr>
+<tr>
+<td>Coding</td>
+<td>Unencoded (direct)</td>
+<td>Encoded — k bits select 2ᵏ microoperations</td>
+</tr>
+<tr>
+<td>Parallelism</td>
+<td><strong>Many</strong> microoperations can be started in <strong>one</strong> cycle</td>
+<td>Few microoperations per cycle (mutually exclusive ones share a field)</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td><strong>Fast</strong> — control signals appear directly</td>
+<td><strong>Slower</strong> — signals must pass through decoders</td>
+</tr>
+<tr>
+<td>Hardware</td>
+<td>Longer control word → wider control memory, no external decoders</td>
+<td>Shorter control word → needs <strong>external decoders</strong> (extra hardware &amp; delay)</td>
+</tr>
+<tr>
+<td>Control memory cost</td>
+<td>Higher (wider words)</td>
+<td>Lower (narrower words)</td>
+</tr>
+<tr>
+<td>Difficulty to write</td>
+<td>Easier to see what happens, but long words</td>
+<td>Harder — need an assembler, careful about conflicts</td>
+</tr>
+<tr>
+<td>Flexibility</td>
+<td>Full</td>
+<td>Limited by the encoding</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>Hardwired-speed microprogrammed machines, <strong>CISC</strong></td>
+<td>Cost/space-oriented designs</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>In Mano's example the 9 bits of microoperation are split into <strong>3 sub-fields of 3 bits each</strong> → each is decoded by a <strong>3 × 8 decoder</strong>. This is the <strong>vertical</strong> style: reduces microinstruction size but adds decoder delay.</p>
+</blockquote>
+<h3>4.6 Design of the Control Unit — Microprogram Sequencer (Fig. 7-8)</h3>
+<div class="mermaid">
+flowchart TD
+    ST[&quot;&lt;b&gt;CD field&lt;/b&gt; selects a status bit&lt;br/&gt;carry · sign · zero · mode · I/O flags&quot;] --&gt; M2[&quot;MULTIPLEXER 2&lt;br/&gt;output &lt;b&gt;T&lt;/b&gt; = test result&quot;]
+    BR[&quot;&lt;b&gt;BR field&lt;/b&gt;&lt;br/&gt;I₁ I₀&quot;] --&gt; IL[&quot;INPUT LOGIC&lt;br/&gt;inputs I₁, I₀, T&lt;br/&gt;outputs &lt;b&gt;S₁ S₀&lt;/b&gt; (source select)&lt;br/&gt;and &lt;b&gt;L&lt;/b&gt; (load enable)&quot;]
+    M2 --&gt; IL
+    SRC[&quot;FOUR SOURCES of the next CAR value&lt;br/&gt;1 · INCREMENTER — CAR + 1&lt;br/&gt;2 · AD field — branch address&lt;br/&gt;3 · SBR — return address&lt;br/&gt;4 · MAPPING LOGIC — instruction opcode&quot;] --&gt; M1[&quot;MULTIPLEXER 1&lt;br/&gt;selects one of the four sources&quot;]
+    IL --&gt;|&quot;&lt;b&gt;S₁ S₀&lt;/b&gt;&quot;| M1
+    M1 --&gt; CAR[&quot;CONTROL ADDRESS REGISTER (CAR)&quot;]
+    CAR --&gt; CM[&quot;CONTROL MEMORY&lt;br/&gt;(ROM)&quot;]
+    CM --&gt; MI[&quot;MICROINSTRUCTION&lt;br/&gt;→ micro-operations&quot;]
+</div>
+<p><strong>Input logic truth table / Boolean functions (Mano Table 7-4):</strong></p>
+<table>
+<thead>
+<tr>
+<th>BR</th>
+<th>I₁I₀</th>
+<th>T</th>
+<th>S₁S₀</th>
+<th>L</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JMP</td>
+<td>00</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+<td>CAR ← CAR + 1 (increment)</td>
+</tr>
+<tr>
+<td>JMP</td>
+<td>00</td>
+<td>1</td>
+<td>01</td>
+<td>0</td>
+<td>CAR ← AD (jump)</td>
+</tr>
+<tr>
+<td>CALL</td>
+<td>01</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+<td>increment</td>
+</tr>
+<tr>
+<td>CALL</td>
+<td>01</td>
+<td>1</td>
+<td>01</td>
+<td><strong>1</strong></td>
+<td>CAR ← AD, SBR ← CAR+1 (call)</td>
+</tr>
+<tr>
+<td>RET</td>
+<td>10</td>
+<td>x</td>
+<td>10</td>
+<td>0</td>
+<td>CAR ← SBR (return)</td>
+</tr>
+<tr>
+<td>MAP</td>
+<td>11</td>
+<td>x</td>
+<td>11</td>
+<td>0</td>
+<td>CAR ← mapped address</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The <strong>incrementer</strong> is a combinational circuit made of cascaded half-adders (not a flip-flop counter) with a hard-wired <code>1</code> into the LSB stage.</p>
+</blockquote>
+<h2>---</h2>
+<h2>5. Hardwired vs Microprogrammed Control</h2>
+<table>
+<thead>
+<tr>
+<th>Basis</th>
+<th><strong>Hardwired Control</strong></th>
+<th><strong>Microprogrammed Control</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Implementation</td>
+<td>Gates, flip-flops, decoders, timing counter — actual <strong>wiring</strong></td>
+<td>Control signals stored as <strong>microinstructions in control memory (ROM/RAM)</strong></td>
+</tr>
+<tr>
+<td>Speed</td>
+<td><strong>Fast</strong> — can be optimised for speed</td>
+<td>Slower — an extra ROM access per microinstruction</td>
+</tr>
+<tr>
+<td>Modification</td>
+<td>Must <strong>re-wire / re-design</strong> the logic</td>
+<td>Just change the <strong>microprogram</strong> — no hardware change</td>
+</tr>
+<tr>
+<td>Design complexity</td>
+<td>Difficult for large instruction sets; circuit becomes very complex</td>
+<td>Systematic and elegant; complexity moves into the microprogram</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Cheaper for simple machines (no control memory)</td>
+<td>Extra control memory cost</td>
+</tr>
+<tr>
+<td>Flexibility</td>
+<td>Fixed instruction set once built</td>
+<td>Can even change the instruction set at run time (writable control memory / dynamic microprogramming)</td>
+</tr>
+<tr>
+<td>Instruction set size</td>
+<td>Practical only for <strong>small</strong> instruction sets</td>
+<td>Naturally supports <strong>large</strong> instruction sets</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td><strong>RISC</strong> processors, simple controllers (Chap. 5)</td>
+<td><strong>CISC</strong> machines, mainframes, floating-point units (Chap. 7)</td>
+</tr>
+<tr>
+<td>Debugging</td>
+<td>Hard — tracing signals in gates</td>
+<td>Easy — read/trace the microprogram</td>
+</tr>
+</tbody>
+</table>
+<div class="mermaid">
+flowchart TD
+    Q{&quot;How should the control unit&lt;br/&gt;generate the sequence of&lt;br/&gt;microoperations ?&quot;}
+    Q --&gt;|&quot;Choice 1&quot;| HW[&quot;&lt;b&gt;HARDWIRED&lt;/b&gt;&lt;br/&gt;IR opcode + timing signals T0..Tn&lt;br/&gt;→ combinational control logic gates&lt;br/&gt;→ control signals&quot;]
+    Q --&gt;|&quot;Choice 2&quot;| MP[&quot;&lt;b&gt;MICROPROGRAMMED&lt;/b&gt;&lt;br/&gt;opcode → MAP → CAR →&lt;br/&gt;control memory ROM →&lt;br/&gt;microinstruction → control word&lt;br/&gt;→ control signals&quot;]
+    HW --&gt; HWA[&quot;✔ Fast, low latency&lt;br/&gt;✔ Cheaper for few instructions&lt;br/&gt;✘ Fixed — must rewire to change&lt;br/&gt;✘ Logic becomes unmanageable&lt;br/&gt;for large instruction sets&quot;]
+    MP --&gt; MPA[&quot;✔ Flexible — just reprogram&lt;br/&gt;✔ Systematic design&lt;br/&gt;✔ Supports complex instruction sets&lt;br/&gt;✘ Extra ROM delay per step&lt;br/&gt;✘ Slower than pure hardware&quot;]
+</div>
+<h2>---</h2>
+<h2>6. CISC vs RISC</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th><strong>CISC</strong> (Complex Instruction Set Computer)</th>
+<th><strong>RISC</strong> (Reduced Instruction Set Computer)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number of instructions</td>
+<td><strong>Many</strong> — typically 100 to 250</td>
+<td><strong>Few</strong> — relatively small set</td>
+</tr>
+<tr>
+<td>Addressing modes</td>
+<td><strong>Many</strong> — typically 5 to 20</td>
+<td><strong>Few</strong> — mostly register; plus immediate and PC-relative</td>
+</tr>
+<tr>
+<td>Instruction format</td>
+<td><strong>Variable length</strong> (2 to 5+ bytes) — needs byte-counting decode logic</td>
+<td><strong>Fixed length</strong>, word-aligned, <strong>easy to decode</strong></td>
+</tr>
+<tr>
+<td>Operand access</td>
+<td>Instructions manipulate operands <strong>directly in memory</strong> (e.g. memory-to-memory ADD → 3 memory refs)</td>
+<td>Memory access <strong>only via LOAD and STORE</strong>; everything else is register-to-register</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>Often several cycles, microprogrammed</td>
+<td><strong>Single-cycle</strong> instruction execution (via pipelining); load/store may take 2 cycles</td>
+</tr>
+<tr>
+<td>Control unit</td>
+<td>Usually <strong>microprogrammed</strong></td>
+<td><strong>Hardwired</strong></td>
+</tr>
+<tr>
+<td>HLL support</td>
+<td>One machine instruction per HLL statement (e.g. VAX, IBM 370)</td>
+<td>Relies on the <strong>compiler</strong> to optimise</td>
+</tr>
+<tr>
+<td>Registers</td>
+<td>Fewer general registers</td>
+<td><strong>Large</strong> register file; <strong>overlapped register windows</strong></td>
+</tr>
+<tr>
+<td>Pipelining</td>
+<td>Possible but harder</td>
+<td><strong>Efficient instruction pipeline</strong>, delayed load, delayed branch</td>
+</tr>
+<tr>
+<td>Hardware</td>
+<td>More complex decode/control logic; slow clock</td>
+<td>Simple control → <strong>fast clock</strong></td>
+</tr>
+<tr>
+<td>Goal</td>
+<td>Reduce the semantic gap between HLL and machine code; simplify compilation</td>
+<td><strong>Reduce execution time</strong> by simplifying the instruction set</td>
+</tr>
+<tr>
+<td>Examples</td>
+<td>VAX-11, IBM 370, Intel x86 (largely)</td>
+<td>Berkeley RISC I/II, MIPS, SPARC, ARM</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Overlapped register windows (Berkeley RISC I):</strong>
+* Each procedure call activates a <strong>new window</strong> of registers by incrementing a pointer; return decrements it.
+* Adjacent windows <strong>overlap</strong> — the high registers of the caller are the low registers of the callee → parameters pass <strong>with no data movement and no save/restore</strong>.
+* <code>window size = L + 2C + G</code>, <code>register file = (L + C) × W + G</code>
+  where G = global registers, L = local registers/window, C = registers common to two windows, W = number of windows.
+* <strong>Example:</strong> G = 10, L = 10, C = 6, W = 4 → window size = 10 + 12 + 10 = <strong>32</strong>; register file = (10+6)×4 + 10 = <strong>74 registers</strong>.
+* <strong>Berkeley RISC I:</strong> 32-bit CPU, <strong>31 instructions</strong>, 3 addressing modes (register, immediate, PC-relative), <strong>138 registers</strong> = 10 global + 8 windows × 32.</p>
+<div class="mermaid">
+flowchart TD
+    IS[&quot;Instruction Set Design&quot;] --&gt; Q{&quot;Which philosophy ?&quot;}
+    Q --&gt;|&quot;Maximise hardware help&lt;br/&gt;to the compiler&quot;| CISC[&quot;&lt;b&gt;CISC&lt;/b&gt;&lt;br/&gt;many instructions, many modes,&lt;br/&gt;variable length, memory operands,&lt;br/&gt;microprogrammed control&quot;]
+    Q --&gt;|&quot;Maximise raw speed&lt;br/&gt;per clock&quot;| RISC[&quot;&lt;b&gt;RISC&lt;/b&gt;&lt;br/&gt;few instructions, few modes,&lt;br/&gt;fixed length, load/store only,&lt;br/&gt;hardwired control + pipeline&quot;]
+    CISC --&gt; CI[&quot;✔ Small semantic gap&lt;br/&gt;✔ Shorter programs&lt;br/&gt;✘ Complex, slow decode&lt;br/&gt;✘ Long critical paths&quot;]
+    RISC --&gt; RI[&quot;✔ Fast decode &amp;amp; fast clock&lt;br/&gt;✔ Simple hardwired control&lt;br/&gt;✔ Easy pipelining → 1 instr/cycle&lt;br/&gt;✘ Longer code (register spills)&quot;]
+</div>
+<h2>---</h2>
+<h1>QUICK REVISION SHEET</h1>
+<h3>Must-know formulas</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU time</td>
+<td><code>IC × CPI × τ</code></td>
+</tr>
+<tr>
+<td>MIPS</td>
+<td><code>IC / (T × 10⁶) = f / (CPI × 10⁶)</code></td>
+</tr>
+<tr>
+<td>Amdahl's Law</td>
+<td><code>S = 1 / [(1 − F) + F/S]</code> ; max <code>= 1/(1−F)</code></td>
+</tr>
+<tr>
+<td>Cache avg access</td>
+<td><code>h·t_c + (1−h)·t_m</code></td>
+</tr>
+<tr>
+<td>Register file (windows)</td>
+<td><code>(L + C)W + G</code></td>
+</tr>
+<tr>
+<td>Window size</td>
+<td><code>L + 2C + G</code></td>
+</tr>
+<tr>
+<td>2's complement</td>
+<td>1's complement + 1</td>
+</tr>
+<tr>
+<td>Booth pair <code>01</code> / <code>10</code></td>
+<td>add / subtract</td>
+</tr>
+</tbody>
+</table>
+<h3>Top 10 flowcharts to reproduce in the exam</h3>
+<ol>
+<li>Von Neumann block diagram</li>
+<li>Fetch–Decode–Execute instruction cycle</li>
+<li><strong>Basic-computer instruction cycle (Fig. 5-9 / 5-15)</strong> with the R flip-flop branch</li>
+<li><strong>Interrupt cycle (Fig. 5-13)</strong></li>
+<li>Memory-reference instruction execution (Fig. 5-11)</li>
+<li><strong>Booth's algorithm (Fig. 10-8)</strong></li>
+<li>Signed-magnitude add/subtract (Fig. 10-2)</li>
+<li>Signed 2's complement add/subtract (Fig. 10-4)</li>
+<li>Memory hierarchy</li>
+<li><strong>TLB / segmented-page address translation (Fig. 12-21)</strong></li>
+</ol>
+<p><em>(Bonus: cache hit/miss, virtual-memory page fault, microprogrammed control organization, address-sequencing of control memory.)</em></p>
+<h3>Fast facts</h3>
+<ul>
+<li>Basic computer: <strong>4096 × 16</strong> memory, <strong>25 instructions</strong>, <strong>8 registers + SC</strong>, <strong>3-bit opcode</strong> (<code>111</code> = register/I/O).</li>
+<li>Register-reference recognized by <strong>D₇ = 1, I = 0</strong>; I/O by <strong>D₇ = 1, I = 1</strong>; memory-reference by <strong>D₇ = 0</strong>.</li>
+<li><code>BSA</code> = call, <code>BUN 0</code> indirect = return.</li>
+<li>Booth: overflow <strong>impossible</strong>; 2's comp add/sub: overflow = <strong>XOR of last two carries</strong>.</li>
+<li><code>IEN = 1</code> and <code>(FGI + FGO) = 1</code> → <code>R ← 1</code> → interrupt cycle.</li>
+<li>Daisy chain: the device closest to the CPU has highest priority.</li>
+<li>Cache↔main memory access-time ratio ≈ <strong>1 : 7</strong>; auxiliary ≈ <strong>1000×</strong> main memory.</li>
+<li>TLB converts 3 memory accesses → <strong>1</strong> associative search on a hit.</li>
+</ul>
+</div>
+
+<script src="mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    securityLevel: 'loose',
+    flowchart: { htmlLabels: true, curve: 'basis', nodeSpacing: 45, rankSpacing: 55 },
+    themeVariables: {
+      fontFamily: 'Segoe UI, Inter, Arial, sans-serif',
+      fontSize: '14px',
+      primaryColor: '#e8eefb',
+      primaryTextColor: '#14315e',
+      primaryBorderColor: '#2f6fde',
+      lineColor: '#5b7bb5',
+      secondaryColor: '#eafaf0',
+      tertiaryColor: '#fff4e5'
+    }
+  });
+</script>
+
+</body>
+</html>
