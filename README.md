@@ -1,6 +1,12 @@
 # COA — Computer Organization & Architecture
 
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-live-2f6fde?logo=githubpages&logoColor=white)](https://mohit-verma1411.github.io/coa-notes/)
+[![Mermaid](https://img.shields.io/badge/flowcharts-32-45a1ff)](https://mohit-verma1411.github.io/coa-notes/COA%20Notes%20-%20Unit%201%20%26%20Unit%202.html)
+[![License](https://img.shields.io/badge/source-Mano%203rd%20ed.-lightgrey)](https://github.com/Mohit-Verma1411/coa-notes)
+
 **Complete study notes for Unit 1 & Unit 2, with 32 flowcharts.**
+
+> **🌐 Read it live:** <https://mohit-verma1411.github.io/coa-notes/>
 
 > Source: M. Morris Mano, *Computer System Architecture*, 3rd Edition.
 > Companion topics (Von Neumann architecture, computer generations, MIPS/MFLOPS,
